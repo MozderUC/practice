@@ -1,0 +1,17 @@
+[
+    {
+        "auditProfileId": 0,
+        "userId": 1,
+        "status": null,
+        //Reviewer First name
+        "firstName": "Admin",
+        //Reviewer Last name
+        "lastName": "Admin",
+        "email": null,
+        "languagePreference": null,
+        //Access Recertification progress status by Reviewer
+        "progressStatus": 100,
+        //Entity the Reviewer belongs to
+        "businessEntityName": "Green Shield Canada"
+    }
+]
