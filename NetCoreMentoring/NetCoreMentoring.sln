@@ -1,0 +1,53 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30413.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCoreMentoring.Core", "src\NetCoreMentoring.Core\NetCoreMentoring.Core.csproj", "{0049D1EF-EBC6-4C1D-97FE-F078F4FCC6D6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCoreMentoring.App", "src\NetCoreMentoring.App\NetCoreMentoring.App.csproj", "{F21DE8AD-49C9-4486-B484-BB063E93BCA5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A6BF15B1-49CD-4C64-86FD-7FB993FA09A2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{E7E644C3-FF78-4D08-A2BB-03FE005EA7FA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCoreMentoring.App.UnitTests", "test\NetCoreMentoring.App.UnitTests\NetCoreMentoring.App.UnitTests.csproj", "{BF81BDA7-62C6-487D-8982-C71EDD700D80}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCoreMentoring.Data", "src\NetCoreMentoring.Data\NetCoreMentoring.Data.csproj", "{F63300D2-8C0A-4A15-A7AB-13193DBBB6BE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0049D1EF-EBC6-4C1D-97FE-F078F4FCC6D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0049D1EF-EBC6-4C1D-97FE-F078F4FCC6D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0049D1EF-EBC6-4C1D-97FE-F078F4FCC6D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0049D1EF-EBC6-4C1D-97FE-F078F4FCC6D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F21DE8AD-49C9-4486-B484-BB063E93BCA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F21DE8AD-49C9-4486-B484-BB063E93BCA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F21DE8AD-49C9-4486-B484-BB063E93BCA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F21DE8AD-49C9-4486-B484-BB063E93BCA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF81BDA7-62C6-487D-8982-C71EDD700D80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF81BDA7-62C6-487D-8982-C71EDD700D80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF81BDA7-62C6-487D-8982-C71EDD700D80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF81BDA7-62C6-487D-8982-C71EDD700D80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F63300D2-8C0A-4A15-A7AB-13193DBBB6BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F63300D2-8C0A-4A15-A7AB-13193DBBB6BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F63300D2-8C0A-4A15-A7AB-13193DBBB6BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F63300D2-8C0A-4A15-A7AB-13193DBBB6BE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0049D1EF-EBC6-4C1D-97FE-F078F4FCC6D6} = {A6BF15B1-49CD-4C64-86FD-7FB993FA09A2}
+		{F21DE8AD-49C9-4486-B484-BB063E93BCA5} = {A6BF15B1-49CD-4C64-86FD-7FB993FA09A2}
+		{BF81BDA7-62C6-487D-8982-C71EDD700D80} = {E7E644C3-FF78-4D08-A2BB-03FE005EA7FA}
+		{F63300D2-8C0A-4A15-A7AB-13193DBBB6BE} = {A6BF15B1-49CD-4C64-86FD-7FB993FA09A2}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {66DCC19D-09A3-408C-ABF4-74B8ECF4E283}
+	EndGlobalSection
+EndGlobal
