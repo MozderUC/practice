@@ -1,19 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using NetCoreMentoring.Core.Models;
 using NetCoreMentoring.Core.Services.Contracts;
 using NetCoreMentoring.Data;
 
 namespace NetCoreMentoring.Core.Services
 {
-    public class ProductService : IProductService
+    public class CategoryService : ICategoryService
     {
         private readonly NorthwindContext _context;
         private readonly IMapper _mapper;
 
-        public ProductService(
+        public CategoryService(
             NorthwindContext context,
             IMapper mapper)
         {
@@ -21,10 +20,9 @@ namespace NetCoreMentoring.Core.Services
             _mapper = mapper;
         }
 
-        public IEnumerable<Products> GetProducts()
+        public IEnumerable<Category> GetCategories()
         {
-            return _mapper.Map<IEnumerable<Products>>(_context.Products.Include(p => p.Category)
-                .Include(p => p.Supplier).AsEnumerable());
+            return _mapper.Map<IEnumerable<Category>>(_context.Categories.AsEnumerable());
         }
     }
 }

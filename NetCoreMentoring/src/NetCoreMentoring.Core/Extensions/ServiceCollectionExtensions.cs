@@ -11,6 +11,7 @@ namespace NetCoreMentoring.Core.Extensions
             this IServiceCollection services,
             IConfiguration configuration)
         {
+            services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IProductService, ProductService>();
 
             return services;
