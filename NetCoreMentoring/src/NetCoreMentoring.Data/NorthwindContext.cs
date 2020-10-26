@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
 using NetCoreMentoring.Data.Models;
 
 namespace NetCoreMentoring.Data
 {
-    public partial class NorthwindContext : DbContext
+    public class NorthwindContext : DbContext
     {
         public NorthwindContext()
         {
@@ -14,79 +15,31 @@ namespace NetCoreMentoring.Data
         {
         }
 
-        public virtual DbSet<AlphabeticalListOfProducts> AlphabeticalListOfProducts { get; set; }
-        public virtual DbSet<Categories> Categories { get; set; }
-        public virtual DbSet<CategorySalesFor1997> CategorySalesFor1997 { get; set; }
-        public virtual DbSet<CurrentProductList> CurrentProductList { get; set; }
-        public virtual DbSet<CustomerAndSuppliersByCity> CustomerAndSuppliersByCity { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<CustomerCustomerDemo> CustomerCustomerDemo { get; set; }
-        public virtual DbSet<CustomerDemographics> CustomerDemographics { get; set; }
-        public virtual DbSet<Customers> Customers { get; set; }
-        public virtual DbSet<EmployeeTerritories> EmployeeTerritories { get; set; }
-        public virtual DbSet<Employees> Employees { get; set; }
-        public virtual DbSet<Invoices> Invoices { get; set; }
-        public virtual DbSet<OrderDetails> OrderDetails { get; set; }
-        public virtual DbSet<OrderDetailsExtended> OrderDetailsExtended { get; set; }
-        public virtual DbSet<OrderSubtotals> OrderSubtotals { get; set; }
-        public virtual DbSet<Orders> Orders { get; set; }
-        public virtual DbSet<OrdersQry> OrdersQry { get; set; }
-        public virtual DbSet<ProductSalesFor1997> ProductSalesFor1997 { get; set; }
-        public virtual DbSet<Products> Products { get; set; }
-        public virtual DbSet<ProductsAboveAveragePrice> ProductsAboveAveragePrice { get; set; }
-        public virtual DbSet<ProductsByCategory> ProductsByCategory { get; set; }
-        public virtual DbSet<QuarterlyOrders> QuarterlyOrders { get; set; }
+        public virtual DbSet<CustomerDemographic> CustomerDemographics { get; set; }
+        public virtual DbSet<Customer> Customers { get; set; }
+        public virtual DbSet<EmployeeTerritory> EmployeeTerritories { get; set; }
+        public virtual DbSet<Employer> Employees { get; set; }
+        public virtual DbSet<OrderDetail> OrderDetails { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<Region> Region { get; set; }
-        public virtual DbSet<SalesByCategory> SalesByCategory { get; set; }
-        public virtual DbSet<SalesTotalsByAmount> SalesTotalsByAmount { get; set; }
-        public virtual DbSet<Shippers> Shippers { get; set; }
-        public virtual DbSet<SummaryOfSalesByQuarter> SummaryOfSalesByQuarter { get; set; }
-        public virtual DbSet<SummaryOfSalesByYear> SummaryOfSalesByYear { get; set; }
-        public virtual DbSet<Suppliers> Suppliers { get; set; }
-        public virtual DbSet<Territories> Territories { get; set; }
+        public virtual DbSet<Shipper> Shippers { get; set; }
+        public virtual DbSet<Supplier> Suppliers { get; set; }
+        public virtual DbSet<Territory> Territories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<AlphabeticalListOfProducts>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToView("Alphabetical list of products");
-            });
-
-            modelBuilder.Entity<Categories>(entity =>
+            modelBuilder.Entity<Category>(entity =>
             {
                 entity.HasIndex(e => e.CategoryName)
                     .HasName("CategoryName");
             });
 
-            modelBuilder.Entity<CategorySalesFor1997>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToView("Category Sales for 1997");
-            });
-
-            modelBuilder.Entity<CurrentProductList>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToView("Current Product List");
-
-                entity.Property(e => e.ProductId).ValueGeneratedOnAdd();
-            });
-
-            modelBuilder.Entity<CustomerAndSuppliersByCity>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToView("Customer and Suppliers by City");
-
-                entity.Property(e => e.Relationship).IsUnicode(false);
-            });
-
             modelBuilder.Entity<CustomerCustomerDemo>(entity =>
             {
-                entity.HasKey(e => new { e.CustomerId, e.CustomerTypeId })
+                entity.HasKey(e => new {e.CustomerId, e.CustomerTypeId})
                     .IsClustered(false);
 
                 entity.Property(e => e.CustomerId).IsFixedLength();
@@ -106,7 +59,7 @@ namespace NetCoreMentoring.Data
                     .HasConstraintName("FK_CustomerCustomerDemo");
             });
 
-            modelBuilder.Entity<CustomerDemographics>(entity =>
+            modelBuilder.Entity<CustomerDemographic>(entity =>
             {
                 entity.HasKey(e => e.CustomerTypeId)
                     .IsClustered(false);
@@ -114,7 +67,7 @@ namespace NetCoreMentoring.Data
                 entity.Property(e => e.CustomerTypeId).IsFixedLength();
             });
 
-            modelBuilder.Entity<Customers>(entity =>
+            modelBuilder.Entity<Customer>(entity =>
             {
                 entity.HasIndex(e => e.City)
                     .HasName("City");
@@ -131,12 +84,12 @@ namespace NetCoreMentoring.Data
                 entity.Property(e => e.CustomerId).IsFixedLength();
             });
 
-            modelBuilder.Entity<EmployeeTerritories>(entity =>
+            modelBuilder.Entity<EmployeeTerritory>(entity =>
             {
-                entity.HasKey(e => new { e.EmployeeId, e.TerritoryId })
+                entity.HasKey(e => new {e.EmployeeId, e.TerritoryId})
                     .IsClustered(false);
 
-                entity.HasOne(d => d.Employee)
+                entity.HasOne(d => d.Employer)
                     .WithMany(p => p.EmployeeTerritories)
                     .HasForeignKey(d => d.EmployeeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -149,7 +102,7 @@ namespace NetCoreMentoring.Data
                     .HasConstraintName("FK_EmployeeTerritories_Territories");
             });
 
-            modelBuilder.Entity<Employees>(entity =>
+            modelBuilder.Entity<Employer>(entity =>
             {
                 entity.HasIndex(e => e.LastName)
                     .HasName("LastName");
@@ -163,18 +116,9 @@ namespace NetCoreMentoring.Data
                     .HasConstraintName("FK_Employees_Employees");
             });
 
-            modelBuilder.Entity<Invoices>(entity =>
+            modelBuilder.Entity<OrderDetail>(entity =>
             {
-                entity.HasNoKey();
-
-                entity.ToView("Invoices");
-
-                entity.Property(e => e.CustomerId).IsFixedLength();
-            });
-
-            modelBuilder.Entity<OrderDetails>(entity =>
-            {
-                entity.HasKey(e => new { e.OrderId, e.ProductId })
+                entity.HasKey(e => new {e.OrderId, e.ProductId})
                     .HasName("PK_Order_Details");
 
                 entity.HasIndex(e => e.OrderId)
@@ -198,21 +142,7 @@ namespace NetCoreMentoring.Data
                     .HasConstraintName("FK_Order_Details_Products");
             });
 
-            modelBuilder.Entity<OrderDetailsExtended>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToView("Order Details Extended");
-            });
-
-            modelBuilder.Entity<OrderSubtotals>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToView("Order Subtotals");
-            });
-
-            modelBuilder.Entity<Orders>(entity =>
+            modelBuilder.Entity<Order>(entity =>
             {
                 entity.HasIndex(e => e.CustomerId)
                     .HasName("CustomersOrders");
@@ -241,7 +171,7 @@ namespace NetCoreMentoring.Data
                     .HasForeignKey(d => d.CustomerId)
                     .HasConstraintName("FK_Orders_Customers");
 
-                entity.HasOne(d => d.Employee)
+                entity.HasOne(d => d.Employer)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.EmployeeId)
                     .HasConstraintName("FK_Orders_Employees");
@@ -252,23 +182,7 @@ namespace NetCoreMentoring.Data
                     .HasConstraintName("FK_Orders_Shippers");
             });
 
-            modelBuilder.Entity<OrdersQry>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToView("Orders Qry");
-
-                entity.Property(e => e.CustomerId).IsFixedLength();
-            });
-
-            modelBuilder.Entity<ProductSalesFor1997>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToView("Product Sales for 1997");
-            });
-
-            modelBuilder.Entity<Products>(entity =>
+            modelBuilder.Entity<Product>(entity =>
             {
                 entity.HasIndex(e => e.CategoryId)
                     .HasName("CategoryID");
@@ -298,29 +212,6 @@ namespace NetCoreMentoring.Data
                     .HasConstraintName("FK_Products_Suppliers");
             });
 
-            modelBuilder.Entity<ProductsAboveAveragePrice>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToView("Products Above Average Price");
-            });
-
-            modelBuilder.Entity<ProductsByCategory>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToView("Products by Category");
-            });
-
-            modelBuilder.Entity<QuarterlyOrders>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToView("Quarterly Orders");
-
-                entity.Property(e => e.CustomerId).IsFixedLength();
-            });
-
             modelBuilder.Entity<Region>(entity =>
             {
                 entity.HasKey(e => e.RegionId)
@@ -331,35 +222,7 @@ namespace NetCoreMentoring.Data
                 entity.Property(e => e.RegionDescription).IsFixedLength();
             });
 
-            modelBuilder.Entity<SalesByCategory>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToView("Sales by Category");
-            });
-
-            modelBuilder.Entity<SalesTotalsByAmount>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToView("Sales Totals by Amount");
-            });
-
-            modelBuilder.Entity<SummaryOfSalesByQuarter>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToView("Summary of Sales by Quarter");
-            });
-
-            modelBuilder.Entity<SummaryOfSalesByYear>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToView("Summary of Sales by Year");
-            });
-
-            modelBuilder.Entity<Suppliers>(entity =>
+            modelBuilder.Entity<Supplier>(entity =>
             {
                 entity.HasIndex(e => e.CompanyName)
                     .HasName("CompanyName");
@@ -368,7 +231,7 @@ namespace NetCoreMentoring.Data
                     .HasName("PostalCode");
             });
 
-            modelBuilder.Entity<Territories>(entity =>
+            modelBuilder.Entity<Territory>(entity =>
             {
                 entity.HasKey(e => e.TerritoryId)
                     .IsClustered(false);
@@ -385,6 +248,9 @@ namespace NetCoreMentoring.Data
             OnModelCreatingPartial(modelBuilder);
         }
 
-        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+        private void OnModelCreatingPartial(ModelBuilder modelBuilder)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

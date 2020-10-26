@@ -1,25 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NetCoreMentoring.Data.Models
 {
-    public partial class Region
+    public class Region
     {
         public Region()
         {
-            Territories = new HashSet<Territories>();
+            Territories = new HashSet<Territory>();
         }
 
-        [Key]
-        [Column("RegionID")]
-        public int RegionId { get; set; }
-        [Required]
-        [StringLength(50)]
-        public string RegionDescription { get; set; }
+        [Key] [Column("RegionID")] public int RegionId { get; set; }
 
-        [InverseProperty("Region")]
-        public virtual ICollection<Territories> Territories { get; set; }
+        [Required] [StringLength(50)] public string RegionDescription { get; set; }
+
+        [InverseProperty("Region")] public virtual ICollection<Territory> Territories { get; set; }
     }
 }

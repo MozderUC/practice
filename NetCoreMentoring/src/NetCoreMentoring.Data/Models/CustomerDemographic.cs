@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NetCoreMentoring.Data.Models
 {
-    public partial class CustomerDemographics
+    [Table("CustomerDemographics")]
+    public class CustomerDemographic
     {
-        public CustomerDemographics()
+        public CustomerDemographic()
         {
             CustomerCustomerDemo = new HashSet<CustomerCustomerDemo>();
         }
@@ -16,8 +16,8 @@ namespace NetCoreMentoring.Data.Models
         [Column("CustomerTypeID")]
         [StringLength(10)]
         public string CustomerTypeId { get; set; }
-        [Column(TypeName = "ntext")]
-        public string CustomerDesc { get; set; }
+
+        [Column(TypeName = "ntext")] public string CustomerDesc { get; set; }
 
         [InverseProperty("CustomerType")]
         public virtual ICollection<CustomerCustomerDemo> CustomerCustomerDemo { get; set; }
