@@ -244,13 +244,6 @@ namespace NetCoreMentoring.Data
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Territories_Region");
             });
-
-            OnModelCreatingPartial(modelBuilder);
-        }
-
-        private void OnModelCreatingPartial(ModelBuilder modelBuilder)
-        {
-            throw new NotImplementedException();
         }
     }
 }

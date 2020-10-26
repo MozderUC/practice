@@ -55,11 +55,11 @@ namespace NetCoreMentoring.Data.Models
         [InverseProperty(nameof(InverseReportsToNavigation))]
         public virtual Employer ReportsToNavigation { get; set; }
 
-        [InverseProperty("Employee")] public virtual ICollection<EmployeeTerritory> EmployeeTerritories { get; set; }
+        [InverseProperty("Employer")] public virtual ICollection<EmployeeTerritory> EmployeeTerritories { get; set; }
 
         [InverseProperty(nameof(ReportsToNavigation))]
         public virtual ICollection<Employer> InverseReportsToNavigation { get; set; }
 
-        [InverseProperty("Employee")] public virtual ICollection<Order> Orders { get; set; }
+        [InverseProperty("Employer")] public virtual ICollection<Order> Orders { get; set; }
     }
 }
