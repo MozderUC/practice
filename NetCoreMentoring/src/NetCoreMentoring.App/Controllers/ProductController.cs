@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -25,32 +26,56 @@ namespace NetCoreMentoring.App.Controllers
 
         public IActionResult Index()
         {
-            var products = _productService.GetProducts();
+            try
+            {
+                var products = _productService.GetProducts();
 
-            return View(_mapper.Map<IEnumerable<Product>>(products));
+                return View(_mapper.Map<IEnumerable<Product>>(products));
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Exception was occurred in {Method}.", nameof(Index));
+                throw;
+            }
         }
 
         public IActionResult Edit(int id)
         {
-            var product = _productService.GetProduct(id);
-
-            if (product == null)
+            try
             {
-                return NotFound();
-            }
+                var product = _productService.GetProduct(id);
 
-            return View(_mapper.Map<Product>(product));
+                if (product == null)
+                {
+                    return NotFound();
+                }
+
+                return View(_mapper.Map<Product>(product));
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Exception was occurred in {Method}. Id: {Id}", nameof(Edit), id);
+                throw;
+            }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, Product product)
         {
-            if (!ModelState.IsValid) return View(product);
+            try
+            {
+                if (!ModelState.IsValid) return View(product);
 
-            _productService.Update(_mapper.Map<Core.Models.Product>(product));
+                _productService.Update(_mapper.Map<Core.Models.Product>(product));
 
-            return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Exception was occurred in {Method}. Id: {Id}; Product: {@Product}", nameof(Edit), id, product);
+                throw;
+            }
         }
 
         public IActionResult Create()
@@ -62,11 +87,19 @@ namespace NetCoreMentoring.App.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Product product)
         {
-            if (!ModelState.IsValid) return View(product);
+            try
+            {
+                if (!ModelState.IsValid) return View(product);
 
-            _productService.Create(_mapper.Map<Core.Models.Product>(product));
+                _productService.Create(_mapper.Map<Core.Models.Product>(product));
 
-            return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Exception was occurred in {Method}. Product: {@Product}", nameof(Create), product);
+                throw;
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -25,7 +26,15 @@ namespace NetCoreMentoring.App.Controllers
 
         public IActionResult Index()
         {
-            return View(_mapper.Map<IEnumerable<Category>>(_categoryService.GetCategories()));
+            try
+            {
+                return View(_mapper.Map<IEnumerable<Category>>(_categoryService.GetCategories()));
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Exception was occurred in {Method}.", nameof(Index));
+                throw;
+            }
         }
 
     }
