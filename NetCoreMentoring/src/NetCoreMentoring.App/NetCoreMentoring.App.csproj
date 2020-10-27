@@ -15,8 +15,4 @@
     <ProjectReference Include="..\NetCoreMentoring.Data\NetCoreMentoring.Data.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
-
 </Project>

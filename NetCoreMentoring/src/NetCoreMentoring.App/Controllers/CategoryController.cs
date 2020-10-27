@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Collections.Generic;
+using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using NetCoreMentoring.App.Models;
 using NetCoreMentoring.Core.Services.Contracts;
 
 namespace NetCoreMentoring.App.Controllers
@@ -7,20 +10,22 @@ namespace NetCoreMentoring.App.Controllers
     public class CategoryController : Controller
     {
         private readonly ICategoryService _categoryService;
-        private readonly ILogger<HomeController> _logger;
+        private readonly IMapper _mapper;
+        private readonly ILogger<CategoryController> _logger;
 
         public CategoryController(
-            ILogger<HomeController> logger,
-            ICategoryService categoryService,
-            IProductService productService)
+            ILogger<CategoryController> logger,
+            IMapper mapper,
+            ICategoryService categoryService)
         {
             _logger = logger;
+            _mapper = mapper;
             _categoryService = categoryService;
         }
 
-        public IActionResult Get()
+        public IActionResult Index()
         {
-            return View(_categoryService.GetCategories());
+            return View(_mapper.Map<IEnumerable<Category>>(_categoryService.GetCategories()));
         }
 
     }

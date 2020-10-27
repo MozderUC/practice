@@ -25,6 +25,16 @@ namespace NetCoreMentoring.Core.Services
             _mapper = mapper;
         }
 
+        public Product GetProduct(int id)
+        {
+            var result = _context.Products
+                .Include(p => p.Category)
+                .Include(p => p.Supplier)
+                .FirstOrDefault(p => p.ProductId == id);
+
+            return _mapper.Map<Product>(result);
+        }
+
         public IEnumerable<Product> GetProducts()
         {
             //TODO: add exception handling
@@ -37,6 +47,22 @@ namespace NetCoreMentoring.Core.Services
                 .AsEnumerable();
 
             return _mapper.Map<IEnumerable<Product>>(result);
+        }
+
+        public Product Update(Product product)
+        {
+            var result = _context.Products.Update(_mapper.Map<Data.Models.Product>(product));
+            _context.SaveChanges();
+
+            return _mapper.Map<Product>(result.Entity);
+        }
+
+        public Product Create(Product product)
+        {
+            var result = _context.Products.Add(_mapper.Map<Data.Models.Product>(product));
+            _context.SaveChanges();
+
+            return _mapper.Map<Product>(result.Entity);
         }
     }
 }
