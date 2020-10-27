@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
-using NetCoreMentoring.Core.Models;
-using NetCoreMentoring.Data.Models;
 using Category = NetCoreMentoring.Core.Models.Category;
+using Product = NetCoreMentoring.Core.Models.Product;
 using Supplier = NetCoreMentoring.Core.Models.Supplier;
 
 namespace NetCoreMentoring.Core.Mapping
@@ -12,7 +11,7 @@ namespace NetCoreMentoring.Core.Mapping
         {
             CreateMap<Category, Data.Models.Category>().ReverseMap();
 
-            CreateMap<Products, Product>().ReverseMap();
+            CreateMap<Product, Data.Models.Product>().ReverseMap();
 
             CreateMap<Supplier, Data.Models.Supplier>().ReverseMap();
         }

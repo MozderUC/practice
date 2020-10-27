@@ -1,0 +1,39 @@
+﻿@model IEnumerable<NetCoreMentoring.Core.Models.Category>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Categories</h1>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CategoryId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CategoryName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var category in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => category.CategoryId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => category.CategoryName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => category.Description)
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

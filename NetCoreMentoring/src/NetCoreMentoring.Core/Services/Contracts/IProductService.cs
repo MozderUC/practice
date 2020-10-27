@@ -5,6 +5,6 @@ namespace NetCoreMentoring.Core.Services.Contracts
 {
     public interface IProductService
     {
-        public IEnumerable<Products> GetProducts();
+        public IEnumerable<Product> GetProducts();
     }
 }
