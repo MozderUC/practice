@@ -16,11 +16,11 @@ namespace NetCoreMentoring.Data.Models
         public float Discount { get; set; }
 
         [ForeignKey(nameof(OrderId))]
-        [InverseProperty(nameof(Models.Order.OrderDetails))]
-        public virtual Order Order { get; set; }
+        [InverseProperty(nameof(Models.OrderEntity.OrderDetails))]
+        public virtual OrderEntity Order { get; set; }
 
         [ForeignKey(nameof(ProductId))]
-        [InverseProperty(nameof(Models.Product.OrderDetails))]
-        public virtual Product Product { get; set; }
+        [InverseProperty(nameof(Models.ProductEntity.OrderDetails))]
+        public virtual ProductEntity Product { get; set; }
     }
 }

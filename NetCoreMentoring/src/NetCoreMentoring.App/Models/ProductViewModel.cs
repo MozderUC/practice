@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace NetCoreMentoring.App.Models
 {
     [BindProperties(SupportsGet = true)]
-    public class Product
+    public class ProductViewModel
     {
         public int? ProductId { get; set; }
         [Required]
@@ -20,7 +20,7 @@ namespace NetCoreMentoring.App.Models
         public short? ReorderLevel { get; set; }
         public bool Discontinued { get; set; }
 
-        public virtual Category Category { get; set; }
-        public virtual Supplier Supplier { get; set; }
+        public CategoryViewModel Category { get; set; }
+        public SupplierViewModel Supplier { get; set; }
     }
 }

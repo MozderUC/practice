@@ -5,11 +5,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace NetCoreMentoring.Data.Models
 {
     [Table("Territories")]
-    public class Territory
+    public class TerritoryEntity
     {
-        public Territory()
+        public TerritoryEntity()
         {
-            EmployeeTerritories = new HashSet<EmployeeTerritory>();
+            EmployeeTerritories = new HashSet<EmployeeTerritoryEntity>();
         }
 
         [Key]
@@ -23,8 +23,8 @@ namespace NetCoreMentoring.Data.Models
 
         [ForeignKey(nameof(RegionId))]
         [InverseProperty("Territories")]
-        public virtual Region Region { get; set; }
+        public virtual RegionEntity Region { get; set; }
 
-        [InverseProperty("Territory")] public virtual ICollection<EmployeeTerritory> EmployeeTerritories { get; set; }
+        [InverseProperty("Territory")] public virtual ICollection<EmployeeTerritoryEntity> EmployeeTerritories { get; set; }
     }
 }

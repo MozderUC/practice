@@ -4,17 +4,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NetCoreMentoring.Data.Models
 {
-    public class Region
+    [Table("Region")]
+    public class RegionEntity
     {
-        public Region()
+        public RegionEntity()
         {
-            Territories = new HashSet<Territory>();
+            Territories = new HashSet<TerritoryEntity>();
         }
 
         [Key] [Column("RegionID")] public int RegionId { get; set; }
 
         [Required] [StringLength(50)] public string RegionDescription { get; set; }
 
-        [InverseProperty("Region")] public virtual ICollection<Territory> Territories { get; set; }
+        [InverseProperty("Region")] public virtual ICollection<TerritoryEntity> Territories { get; set; }
     }
 }

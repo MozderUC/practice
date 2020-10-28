@@ -5,11 +5,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace NetCoreMentoring.Data.Models
 {
     [Table("Shippers")]
-    public class Shipper
+    public class ShipperEntity
     {
-        public Shipper()
+        public ShipperEntity()
         {
-            Orders = new HashSet<Order>();
+            Orders = new HashSet<OrderEntity>();
         }
 
         [Key] [Column("ShipperID")] public int ShipperId { get; set; }
@@ -18,6 +18,6 @@ namespace NetCoreMentoring.Data.Models
 
         [StringLength(24)] public string Phone { get; set; }
 
-        [InverseProperty("ShipViaNavigation")] public virtual ICollection<Order> Orders { get; set; }
+        [InverseProperty("ShipViaNavigation")] public virtual ICollection<OrderEntity> Orders { get; set; }
     }
 }

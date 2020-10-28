@@ -1,6 +1,6 @@
 ﻿namespace NetCoreMentoring.App.Models
 {
-    public class Category
+    public class CategoryViewModel
     {
         public int CategoryId { get; set; }
 

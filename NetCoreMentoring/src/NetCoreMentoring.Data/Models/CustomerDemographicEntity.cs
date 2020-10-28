@@ -5,11 +5,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace NetCoreMentoring.Data.Models
 {
     [Table("CustomerDemographics")]
-    public class CustomerDemographic
+    public class CustomerDemographicEntity
     {
-        public CustomerDemographic()
+        public CustomerDemographicEntity()
         {
-            CustomerCustomerDemo = new HashSet<CustomerCustomerDemo>();
+            CustomerCustomerDemo = new HashSet<CustomerCustomerDemoEntity>();
         }
 
         [Key]
@@ -20,6 +20,6 @@ namespace NetCoreMentoring.Data.Models
         [Column(TypeName = "ntext")] public string CustomerDesc { get; set; }
 
         [InverseProperty("CustomerType")]
-        public virtual ICollection<CustomerCustomerDemo> CustomerCustomerDemo { get; set; }
+        public virtual ICollection<CustomerCustomerDemoEntity> CustomerCustomerDemo { get; set; }
     }
 }

@@ -6,13 +6,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace NetCoreMentoring.Data.Models
 {
     [Table("Employees")]
-    public class Employer
+    public class EmployerEntity
     {
-        public Employer()
+        public EmployerEntity()
         {
-            EmployeeTerritories = new HashSet<EmployeeTerritory>();
-            InverseReportsToNavigation = new HashSet<Employer>();
-            Orders = new HashSet<Order>();
+            EmployeeTerritories = new HashSet<EmployeeTerritoryEntity>();
+            InverseReportsToNavigation = new HashSet<EmployerEntity>();
+            Orders = new HashSet<OrderEntity>();
         }
 
         [Key] [Column("EmployeeID")] public int EmployeeId { get; set; }
@@ -53,13 +53,13 @@ namespace NetCoreMentoring.Data.Models
 
         [ForeignKey(nameof(ReportsTo))]
         [InverseProperty(nameof(InverseReportsToNavigation))]
-        public virtual Employer ReportsToNavigation { get; set; }
+        public virtual EmployerEntity ReportsToNavigation { get; set; }
 
-        [InverseProperty("Employer")] public virtual ICollection<EmployeeTerritory> EmployeeTerritories { get; set; }
+        [InverseProperty("Employer")] public virtual ICollection<EmployeeTerritoryEntity> EmployeeTerritories { get; set; }
 
         [InverseProperty(nameof(ReportsToNavigation))]
-        public virtual ICollection<Employer> InverseReportsToNavigation { get; set; }
+        public virtual ICollection<EmployerEntity> InverseReportsToNavigation { get; set; }
 
-        [InverseProperty("Employer")] public virtual ICollection<Order> Orders { get; set; }
+        [InverseProperty("Employer")] public virtual ICollection<OrderEntity> Orders { get; set; }
     }
 }

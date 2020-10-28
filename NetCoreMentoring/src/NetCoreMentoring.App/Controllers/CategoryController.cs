@@ -28,7 +28,7 @@ namespace NetCoreMentoring.App.Controllers
         {
             try
             {
-                return View(_mapper.Map<IEnumerable<Category>>(_categoryService.GetCategories()));
+                return View(_mapper.Map<IEnumerable<CategoryViewModel>>(_categoryService.GetCategories()));
             }
             catch (Exception e)
             {

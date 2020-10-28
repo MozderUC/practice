@@ -5,9 +5,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace NetCoreMentoring.Data.Models
 {
     [Table("Products")]
-    public class Product
+    public class ProductEntity
     {
-        public Product()
+        public ProductEntity()
         {
             OrderDetails = new HashSet<OrderDetail>();
         }
@@ -30,12 +30,12 @@ namespace NetCoreMentoring.Data.Models
         public bool Discontinued { get; set; }
 
         [ForeignKey(nameof(CategoryId))]
-        [InverseProperty(nameof(Models.Category.Products))]
-        public virtual Category Category { get; set; }
+        [InverseProperty(nameof(Models.CategoryEntity.Products))]
+        public virtual CategoryEntity Category { get; set; }
 
         [ForeignKey(nameof(SupplierId))]
-        [InverseProperty(nameof(Models.Supplier.Products))]
-        public virtual Supplier Supplier { get; set; }
+        [InverseProperty(nameof(Models.SupplierEntity.Products))]
+        public virtual SupplierEntity Supplier { get; set; }
 
         [InverseProperty("Product")] public virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }

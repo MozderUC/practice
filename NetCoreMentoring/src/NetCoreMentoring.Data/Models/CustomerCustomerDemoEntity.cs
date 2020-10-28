@@ -3,7 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NetCoreMentoring.Data.Models
 {
-    public class CustomerCustomerDemo
+    [Table("CustomerCustomerDemo")]
+    public class CustomerCustomerDemoEntity
     {
         [Key]
         [Column("CustomerID")]
@@ -16,11 +17,11 @@ namespace NetCoreMentoring.Data.Models
         public string CustomerTypeId { get; set; }
 
         [ForeignKey(nameof(CustomerId))]
-        [InverseProperty(nameof(Models.Customer.CustomerCustomerDemo))]
-        public virtual Customer Customer { get; set; }
+        [InverseProperty(nameof(Models.CustomerEntity.CustomerCustomerDemo))]
+        public virtual CustomerEntity Customer { get; set; }
 
         [ForeignKey(nameof(CustomerTypeId))]
-        [InverseProperty(nameof(CustomerDemographic.CustomerCustomerDemo))]
-        public virtual CustomerDemographic CustomerType { get; set; }
+        [InverseProperty(nameof(CustomerDemographicEntity.CustomerCustomerDemo))]
+        public virtual CustomerDemographicEntity CustomerType { get; set; }
     }
 }

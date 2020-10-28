@@ -9,11 +9,11 @@ namespace NetCoreMentoring.Core.Mapping
     {
         public MappingProfile()
         {
-            CreateMap<Category, Data.Models.Category>().ReverseMap();
+            CreateMap<Category, Data.Models.CategoryEntity>().ReverseMap();
 
-            CreateMap<Product, Data.Models.Product>().ReverseMap();
+            CreateMap<Product, Data.Models.ProductEntity>().ReverseMap();
 
-            CreateMap<Supplier, Data.Models.Supplier>().ReverseMap();
+            CreateMap<Supplier, Data.Models.SupplierEntity>().ReverseMap();
         }
     }
 }

@@ -15,29 +15,29 @@ namespace NetCoreMentoring.Data
         {
         }
 
-        public virtual DbSet<Category> Categories { get; set; }
-        public virtual DbSet<CustomerCustomerDemo> CustomerCustomerDemo { get; set; }
-        public virtual DbSet<CustomerDemographic> CustomerDemographics { get; set; }
-        public virtual DbSet<Customer> Customers { get; set; }
-        public virtual DbSet<EmployeeTerritory> EmployeeTerritories { get; set; }
-        public virtual DbSet<Employer> Employees { get; set; }
+        public virtual DbSet<CategoryEntity> Categories { get; set; }
+        public virtual DbSet<CustomerCustomerDemoEntity> CustomerCustomerDemo { get; set; }
+        public virtual DbSet<CustomerDemographicEntity> CustomerDemographics { get; set; }
+        public virtual DbSet<CustomerEntity> Customers { get; set; }
+        public virtual DbSet<EmployeeTerritoryEntity> EmployeeTerritories { get; set; }
+        public virtual DbSet<EmployerEntity> Employees { get; set; }
         public virtual DbSet<OrderDetail> OrderDetails { get; set; }
-        public virtual DbSet<Order> Orders { get; set; }
-        public virtual DbSet<Product> Products { get; set; }
-        public virtual DbSet<Region> Region { get; set; }
-        public virtual DbSet<Shipper> Shippers { get; set; }
-        public virtual DbSet<Supplier> Suppliers { get; set; }
-        public virtual DbSet<Territory> Territories { get; set; }
+        public virtual DbSet<OrderEntity> Orders { get; set; }
+        public virtual DbSet<ProductEntity> Products { get; set; }
+        public virtual DbSet<RegionEntity> Region { get; set; }
+        public virtual DbSet<ShipperEntity> Shippers { get; set; }
+        public virtual DbSet<SupplierEntity> Suppliers { get; set; }
+        public virtual DbSet<TerritoryEntity> Territories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Category>(entity =>
+            modelBuilder.Entity<CategoryEntity>(entity =>
             {
                 entity.HasIndex(e => e.CategoryName)
                     .HasName("CategoryName");
             });
 
-            modelBuilder.Entity<CustomerCustomerDemo>(entity =>
+            modelBuilder.Entity<CustomerCustomerDemoEntity>(entity =>
             {
                 entity.HasKey(e => new {e.CustomerId, e.CustomerTypeId})
                     .IsClustered(false);
@@ -59,7 +59,7 @@ namespace NetCoreMentoring.Data
                     .HasConstraintName("FK_CustomerCustomerDemo");
             });
 
-            modelBuilder.Entity<CustomerDemographic>(entity =>
+            modelBuilder.Entity<CustomerDemographicEntity>(entity =>
             {
                 entity.HasKey(e => e.CustomerTypeId)
                     .IsClustered(false);
@@ -67,7 +67,7 @@ namespace NetCoreMentoring.Data
                 entity.Property(e => e.CustomerTypeId).IsFixedLength();
             });
 
-            modelBuilder.Entity<Customer>(entity =>
+            modelBuilder.Entity<CustomerEntity>(entity =>
             {
                 entity.HasIndex(e => e.City)
                     .HasName("City");
@@ -84,7 +84,7 @@ namespace NetCoreMentoring.Data
                 entity.Property(e => e.CustomerId).IsFixedLength();
             });
 
-            modelBuilder.Entity<EmployeeTerritory>(entity =>
+            modelBuilder.Entity<EmployeeTerritoryEntity>(entity =>
             {
                 entity.HasKey(e => new {e.EmployeeId, e.TerritoryId})
                     .IsClustered(false);
@@ -102,7 +102,7 @@ namespace NetCoreMentoring.Data
                     .HasConstraintName("FK_EmployeeTerritories_Territories");
             });
 
-            modelBuilder.Entity<Employer>(entity =>
+            modelBuilder.Entity<EmployerEntity>(entity =>
             {
                 entity.HasIndex(e => e.LastName)
                     .HasName("LastName");
@@ -142,7 +142,7 @@ namespace NetCoreMentoring.Data
                     .HasConstraintName("FK_Order_Details_Products");
             });
 
-            modelBuilder.Entity<Order>(entity =>
+            modelBuilder.Entity<OrderEntity>(entity =>
             {
                 entity.HasIndex(e => e.CustomerId)
                     .HasName("CustomersOrders");
@@ -182,7 +182,7 @@ namespace NetCoreMentoring.Data
                     .HasConstraintName("FK_Orders_Shippers");
             });
 
-            modelBuilder.Entity<Product>(entity =>
+            modelBuilder.Entity<ProductEntity>(entity =>
             {
                 entity.HasIndex(e => e.CategoryId)
                     .HasName("CategoryID");
@@ -212,7 +212,7 @@ namespace NetCoreMentoring.Data
                     .HasConstraintName("FK_Products_Suppliers");
             });
 
-            modelBuilder.Entity<Region>(entity =>
+            modelBuilder.Entity<RegionEntity>(entity =>
             {
                 entity.HasKey(e => e.RegionId)
                     .IsClustered(false);
@@ -222,7 +222,7 @@ namespace NetCoreMentoring.Data
                 entity.Property(e => e.RegionDescription).IsFixedLength();
             });
 
-            modelBuilder.Entity<Supplier>(entity =>
+            modelBuilder.Entity<SupplierEntity>(entity =>
             {
                 entity.HasIndex(e => e.CompanyName)
                     .HasName("CompanyName");
@@ -231,7 +231,7 @@ namespace NetCoreMentoring.Data
                     .HasName("PostalCode");
             });
 
-            modelBuilder.Entity<Territory>(entity =>
+            modelBuilder.Entity<TerritoryEntity>(entity =>
             {
                 entity.HasKey(e => e.TerritoryId)
                     .IsClustered(false);

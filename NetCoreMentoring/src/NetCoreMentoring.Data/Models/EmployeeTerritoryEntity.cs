@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace NetCoreMentoring.Data.Models
 {
     [Table("EmployeeTerritories")]
-    public class EmployeeTerritory
+    public class EmployeeTerritoryEntity
     {
         [Key] [Column("EmployeeID")] public int EmployeeId { get; set; }
 
@@ -14,11 +14,11 @@ namespace NetCoreMentoring.Data.Models
         public string TerritoryId { get; set; }
 
         [ForeignKey(nameof(EmployeeId))]
-        [InverseProperty(nameof(Models.Employer.EmployeeTerritories))]
-        public virtual Employer Employer { get; set; }
+        [InverseProperty(nameof(Models.EmployerEntity.EmployeeTerritories))]
+        public virtual EmployerEntity Employer { get; set; }
 
         [ForeignKey(nameof(TerritoryId))]
-        [InverseProperty(nameof(Models.Territory.EmployeeTerritories))]
-        public virtual Territory Territory { get; set; }
+        [InverseProperty(nameof(Models.TerritoryEntity.EmployeeTerritories))]
+        public virtual TerritoryEntity Territory { get; set; }
     }
 }

@@ -6,9 +6,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace NetCoreMentoring.Data.Models
 {
     [Table("Orders")]
-    public class Order
+    public class OrderEntity
     {
-        public Order()
+        public OrderEntity()
         {
             OrderDetails = new HashSet<OrderDetail>();
         }
@@ -44,16 +44,16 @@ namespace NetCoreMentoring.Data.Models
         [StringLength(15)] public string ShipCountry { get; set; }
 
         [ForeignKey(nameof(CustomerId))]
-        [InverseProperty(nameof(Models.Customer.Orders))]
-        public virtual Customer Customer { get; set; }
+        [InverseProperty(nameof(Models.CustomerEntity.Orders))]
+        public virtual CustomerEntity Customer { get; set; }
 
         [ForeignKey(nameof(EmployeeId))]
-        [InverseProperty(nameof(Models.Employer.Orders))]
-        public virtual Employer Employer { get; set; }
+        [InverseProperty(nameof(Models.EmployerEntity.Orders))]
+        public virtual EmployerEntity Employer { get; set; }
 
         [ForeignKey(nameof(ShipVia))]
-        [InverseProperty(nameof(Shipper.Orders))]
-        public virtual Shipper ShipViaNavigation { get; set; }
+        [InverseProperty(nameof(ShipperEntity.Orders))]
+        public virtual ShipperEntity ShipViaNavigation { get; set; }
 
         [InverseProperty("Order")] public virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }

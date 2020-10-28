@@ -5,11 +5,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace NetCoreMentoring.Data.Models
 {
     [Table("Categories")]
-    public class Category
+    public class CategoryEntity
     {
-        public Category()
+        public CategoryEntity()
         {
-            Products = new HashSet<Product>();
+            Products = new HashSet<ProductEntity>();
         }
 
         [Key] [Column("CategoryID")] public int CategoryId { get; set; }
@@ -20,6 +20,6 @@ namespace NetCoreMentoring.Data.Models
 
         [Column(TypeName = "image")] public byte[] Picture { get; set; }
 
-        [InverseProperty("Category")] public virtual ICollection<Product> Products { get; set; }
+        [InverseProperty("Category")] public virtual ICollection<ProductEntity> Products { get; set; }
     }
 }

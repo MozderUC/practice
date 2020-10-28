@@ -5,11 +5,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace NetCoreMentoring.Data.Models
 {
     [Table("Suppliers")]
-    public class Supplier
+    public class SupplierEntity
     {
-        public Supplier()
+        public SupplierEntity()
         {
-            Products = new HashSet<Product>();
+            Products = new HashSet<ProductEntity>();
         }
 
         [Key] [Column("SupplierID")] public int SupplierId { get; set; }
@@ -36,6 +36,6 @@ namespace NetCoreMentoring.Data.Models
 
         [Column(TypeName = "ntext")] public string HomePage { get; set; }
 
-        [InverseProperty("Supplier")] public virtual ICollection<Product> Products { get; set; }
+        [InverseProperty("Supplier")] public virtual ICollection<ProductEntity> Products { get; set; }
     }
 }

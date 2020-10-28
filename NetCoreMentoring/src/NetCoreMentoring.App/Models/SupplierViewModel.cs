@@ -1,6 +1,6 @@
 ﻿namespace NetCoreMentoring.App.Models
 {
-    public class Supplier
+    public class SupplierViewModel
     {
         public int SupplierId { get; set; }
         public string CompanyName { get; set; }

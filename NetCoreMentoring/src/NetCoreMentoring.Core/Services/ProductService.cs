@@ -51,7 +51,7 @@ namespace NetCoreMentoring.Core.Services
 
         public Product Update(Product product)
         {
-            var result = _context.Products.Update(_mapper.Map<Data.Models.Product>(product));
+            var result = _context.Products.Update(_mapper.Map<Data.Models.ProductEntity>(product));
             _context.SaveChanges();
 
             return _mapper.Map<Product>(result.Entity);
@@ -59,7 +59,7 @@ namespace NetCoreMentoring.Core.Services
 
         public Product Create(Product product)
         {
-            var result = _context.Products.Add(_mapper.Map<Data.Models.Product>(product));
+            var result = _context.Products.Add(_mapper.Map<Data.Models.ProductEntity>(product));
             _context.SaveChanges();
 
             return _mapper.Map<Product>(result.Entity);
