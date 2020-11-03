@@ -1,4 +1,5 @@
-﻿@model IEnumerable<NetCoreMentoring.App.Models.CategoryViewModel>
+﻿@using NetCoreMentoring.App.Controllers
+@model IEnumerable<NetCoreMentoring.App.Models.CategoryViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -18,6 +19,9 @@
         <th>
             @Html.DisplayNameFor(model => model.Description)
         </th>
+        <th>
+            @Html.DisplayName("Image")
+        </th>
         <th></th>
     </tr>
     </thead>
@@ -32,6 +36,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => category.Description)
+            </td>
+            <td>
+                @Html.ActionLink("link", nameof(CategoryController.Picture), new {categoryId = category.CategoryId})
             </td>
         </tr>
     }

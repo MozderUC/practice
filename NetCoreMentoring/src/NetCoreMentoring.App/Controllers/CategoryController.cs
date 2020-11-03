@@ -15,9 +15,9 @@ namespace NetCoreMentoring.App.Controllers
         private readonly ILogger<CategoryController> _logger;
 
         public CategoryController(
-            ILogger<CategoryController> logger,
+            ICategoryService categoryService,
             IMapper mapper,
-            ICategoryService categoryService)
+            ILogger<CategoryController> logger)
         {
             _logger = logger;
             _mapper = mapper;
@@ -37,5 +37,18 @@ namespace NetCoreMentoring.App.Controllers
             }
         }
 
+        public IActionResult Picture(int categoryId)
+        {
+            return View(_mapper.Map<CategoryPictureViewModel>(_categoryService.GetCategory(categoryId)));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult UpdatePicture(CategoryPictureViewModel categoryPictureViewModel)
+        {
+            _categoryService.UpdatePicture(categoryPictureViewModel.CategoryId, categoryPictureViewModel.FormFile);
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
