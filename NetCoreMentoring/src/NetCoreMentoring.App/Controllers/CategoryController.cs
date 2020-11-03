@@ -42,6 +42,11 @@ namespace NetCoreMentoring.App.Controllers
             return View(_mapper.Map<CategoryPictureViewModel>(_categoryService.GetCategory(categoryId)));
         }
 
+        public IActionResult GetPicture(int categoryId)
+        {
+            return File(_categoryService.GetCategory(categoryId).Picture, "image/jpeg");
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult UpdatePicture(CategoryPictureViewModel categoryPictureViewModel)

@@ -22,6 +22,9 @@
         <th>
             @Html.DisplayName("Image")
         </th>
+        <th>
+            @Html.DisplayName("Edit Image")
+        </th>
         <th></th>
     </tr>
     </thead>
@@ -38,7 +41,10 @@
                 @Html.DisplayFor(modelItem => category.Description)
             </td>
             <td>
-                @Html.ActionLink("link", nameof(CategoryController.Picture), new {categoryId = category.CategoryId})
+                @Html.ActionLink("image", nameof(CategoryController.GetPicture), new {categoryId = category.CategoryId})
+            </td>
+            <td>
+                @Html.ActionLink("edit image", nameof(CategoryController.Picture), new {categoryId = category.CategoryId})
             </td>
         </tr>
     }
