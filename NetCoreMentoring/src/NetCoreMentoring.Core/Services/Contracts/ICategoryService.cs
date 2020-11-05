@@ -10,6 +10,8 @@ namespace NetCoreMentoring.Core.Services.Contracts
 
         public Category GetCategory(int categoryId);
 
+        public byte[] GetPicture(int categoryId);
+
         public void UpdatePicture(int categoryId, IFormFile newPicture);
     }
 }

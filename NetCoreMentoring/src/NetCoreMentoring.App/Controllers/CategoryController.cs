@@ -37,14 +37,14 @@ namespace NetCoreMentoring.App.Controllers
             }
         }
 
-        public IActionResult Picture(int categoryId)
-        {
-            return View(_mapper.Map<CategoryPictureViewModel>(_categoryService.GetCategory(categoryId)));
-        }
-
         public IActionResult GetPicture(int categoryId)
         {
-            return File(_categoryService.GetCategory(categoryId).Picture, "image/jpeg");
+            return File(_categoryService.GetPicture(categoryId), "image/jpeg");
+        }
+
+        public IActionResult UpdatePicture(int categoryId)
+        {
+            return View(_mapper.Map<CategoryPictureViewModel>(_categoryService.GetCategory(categoryId)));
         }
 
         [HttpPost]

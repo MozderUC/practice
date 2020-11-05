@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NetCoreMentoring.App.Infrastructure;
 using NetCoreMentoring.Core.Extensions;
 using NetCoreMentoring.Data.Extensions;
 
@@ -39,6 +40,8 @@ namespace NetCoreMentoring.App
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseMiddleware<ImageCacheMiddleware>();
 
             app.UseRouting();
             app.UseEndpoints(endpoints =>

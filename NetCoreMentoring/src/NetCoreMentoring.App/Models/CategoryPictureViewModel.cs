@@ -8,8 +8,6 @@ namespace NetCoreMentoring.App.Models
 
         public string CategoryName { get; set; }
 
-        public byte[] Picture { get; set; }
-
         public IFormFile FormFile { get; set; }
     }
 }

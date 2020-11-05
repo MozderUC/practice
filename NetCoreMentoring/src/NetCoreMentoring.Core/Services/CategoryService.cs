@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using NetCoreMentoring.Core.Models;
 using NetCoreMentoring.Core.Services.Contracts;
 using NetCoreMentoring.Core.Utilities;
@@ -12,13 +14,16 @@ namespace NetCoreMentoring.Core.Services
 {
     public class CategoryService : ICategoryService
     {
+        private readonly IConfiguration _configuration;
         private readonly NorthwindContext _context;
         private readonly IMapper _mapper;
 
         public CategoryService(
+            IConfiguration configuration,
             NorthwindContext context,
             IMapper mapper)
         {
+            _configuration = configuration;
             _context = context;
             _mapper = mapper;
         }
@@ -41,6 +46,19 @@ namespace NetCoreMentoring.Core.Services
             return _mapper.Map<Category>(category);
         }
 
+        public byte[] GetPicture(int categoryId)
+        {
+            var cachedFiles = Directory.GetFiles(_configuration["CacheImagePath"]);
+            var filePath = cachedFiles.FirstOrDefault(c => FileHelpers.GetImageId(c) == categoryId.ToString());
+
+            if (filePath != null)
+            {
+                return File.ReadAllBytes(filePath);
+            }
+
+            return _context.Categories.Find(categoryId).Picture;
+        }
+
         public void UpdatePicture(int categoryId, IFormFile newPicture)
         {
             var category = _context.Categories.Find(categoryId);
@@ -48,6 +66,14 @@ namespace NetCoreMentoring.Core.Services
 
             _context.Categories.Update(category);
             _context.SaveChanges();
+
+            var cachedFiles = Directory.GetFiles(_configuration["CacheImagePath"]);
+            var filePath = cachedFiles.FirstOrDefault(c => FileHelpers.GetImageId(c) == categoryId.ToString());
+
+            if (filePath != null)
+            {
+                File.Delete(filePath);
+            }
         }
     }
 }

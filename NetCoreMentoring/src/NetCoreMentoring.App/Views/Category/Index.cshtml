@@ -20,10 +20,10 @@
             @Html.DisplayNameFor(model => model.Description)
         </th>
         <th>
-            @Html.DisplayName("Image")
+            @Html.DisplayName("Picture")
         </th>
         <th>
-            @Html.DisplayName("Edit Image")
+            @Html.DisplayName("Update Picture")
         </th>
         <th></th>
     </tr>
@@ -41,10 +41,10 @@
                 @Html.DisplayFor(modelItem => category.Description)
             </td>
             <td>
-                @Html.ActionLink("image", nameof(CategoryController.GetPicture), new {categoryId = category.CategoryId})
+                @Html.ActionLink("picture", nameof(CategoryController.GetPicture), new {categoryId = category.CategoryId})
             </td>
             <td>
-                @Html.ActionLink("edit image", nameof(CategoryController.Picture), new {categoryId = category.CategoryId})
+                @Html.ActionLink("update picture", nameof(CategoryController.UpdatePicture), new {categoryId = category.CategoryId})
             </td>
         </tr>
     }

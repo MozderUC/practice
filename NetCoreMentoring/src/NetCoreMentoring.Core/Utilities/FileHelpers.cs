@@ -68,6 +68,11 @@ namespace NetCoreMentoring.Core.Utilities
             return memoryStream.ToArray();
         }
 
+        public static string GetImageId(string imagePath)
+        {
+            return imagePath.Split('_')[1].Split('.')[0];
+        }
+
         private static bool IsValidFileExtensionAndSignature(
             string fileName,
             Stream data,
