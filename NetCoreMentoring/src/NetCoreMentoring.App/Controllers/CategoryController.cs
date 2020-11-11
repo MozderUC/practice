@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using NetCoreMentoring.App.Infrastructure;
 using NetCoreMentoring.App.Models;
 using NetCoreMentoring.Core.Services.Contracts;
 
@@ -37,6 +39,7 @@ namespace NetCoreMentoring.App.Controllers
             }
         }
 
+        [ImageCache]
         public IActionResult GetPicture(int categoryId)
         {
             return File(_categoryService.GetPicture(categoryId), "image/jpeg");

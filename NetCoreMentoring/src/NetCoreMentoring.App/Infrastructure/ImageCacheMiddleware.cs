@@ -5,10 +5,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using NetCoreMentoring.Core;
 using NetCoreMentoring.Core.Utilities;
 
 namespace NetCoreMentoring.App.Infrastructure
 {
+    // I use caching with help of attribute instead
+    // Don't delete this just for completing homework module
     public class ImageCacheMiddleware
     {
         private readonly RequestDelegate next;
@@ -43,8 +46,8 @@ namespace NetCoreMentoring.App.Infrastructure
 
                 if (SupportedPictureContentTypes.Keys.Contains(context.Response.ContentType ?? ""))
                 {
-                    if (Directory.GetFiles(_configuration["CacheImagePath"]).Length >=
-                        int.Parse(_configuration["MaxProductsOnPage"])) return;
+                    if (Directory.GetFiles(Globals.CacheImagePath).Length >=
+                        int.Parse(Globals.CacheImagePath)) return;
 
                     if (!context.Request.Query.TryGetValue("categoryId", out var categoryId)) return;
 
@@ -59,7 +62,7 @@ namespace NetCoreMentoring.App.Infrastructure
                     // Add image in cache
                     var fileName = $"{DateTime.Now:MM-dd-yyyy}_{categoryId}.{SupportedPictureContentTypes[context.Response.ContentType]}";
                     await using var targetStream = File.Create(
-                    Path.Combine(Path.Combine(_configuration["CacheImagePath"], fileName)));
+                    Path.Combine(Path.Combine(Globals.CacheImagePath, fileName)));
                     
                     memStream.Position = 0;
                     await memStream.CopyToAsync(targetStream);

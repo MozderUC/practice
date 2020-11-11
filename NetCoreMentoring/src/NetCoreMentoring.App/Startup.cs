@@ -41,7 +41,7 @@ namespace NetCoreMentoring.App
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-            app.UseMiddleware<ImageCacheMiddleware>();
+            //app.UseMiddleware<ImageCacheMiddleware>();
 
             app.UseRouting();
             app.UseEndpoints(endpoints =>

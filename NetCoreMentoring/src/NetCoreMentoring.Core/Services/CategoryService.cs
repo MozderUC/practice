@@ -48,14 +48,6 @@ namespace NetCoreMentoring.Core.Services
 
         public byte[] GetPicture(int categoryId)
         {
-            var cachedFiles = Directory.GetFiles(_configuration["CacheImagePath"]);
-            var filePath = cachedFiles.FirstOrDefault(c => FileHelpers.GetImageId(c) == categoryId.ToString());
-
-            if (filePath != null)
-            {
-                return File.ReadAllBytes(filePath);
-            }
-
             return _context.Categories.Find(categoryId).Picture;
         }
 
@@ -67,7 +59,7 @@ namespace NetCoreMentoring.Core.Services
             _context.Categories.Update(category);
             _context.SaveChanges();
 
-            var cachedFiles = Directory.GetFiles(_configuration["CacheImagePath"]);
+            var cachedFiles = Directory.GetFiles(Globals.CacheImagePath);
             var filePath = cachedFiles.FirstOrDefault(c => FileHelpers.GetImageId(c) == categoryId.ToString());
 
             if (filePath != null)
