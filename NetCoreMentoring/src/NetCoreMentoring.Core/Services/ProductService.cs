@@ -41,7 +41,7 @@ namespace NetCoreMentoring.Core.Services
             var maxProductsOnPage = int.Parse(_configuration["MaxProductsOnPage"]);
 
             var result = _context.Products
-                .Take(maxProductsOnPage)
+                .Take(maxProductsOnPage == 0 ? int.MaxValue : maxProductsOnPage)
                 .Include(p => p.Category)
                 .Include(p => p.Supplier)
                 .AsEnumerable();
