@@ -3,19 +3,31 @@ using System.IO;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Configuration;
 using NetCoreMentoring.Core;
 using NetCoreMentoring.Core.Utilities;
 
 namespace NetCoreMentoring.App.Infrastructure
 {
-    public class ImageCacheAttribute : Attribute, IResourceFilter
+    public class ImageCacheFilter : Attribute, IResourceFilter
     {
+        private readonly string CacheImagePath;
+        private readonly IConfiguration _configuration;
+
+        public ImageCacheFilter(
+            IConfiguration configuration)
+        {
+            _configuration = configuration;
+
+            CacheImagePath = configuration["CacheImagePath"];
+        }
+
         // read cache
         public void OnResourceExecuting(ResourceExecutingContext context)
         {
             if (!context.HttpContext.Request.Query.TryGetValue("categoryId", out var categoryId)) return;
 
-            var cachedFiles = Directory.GetFiles(Globals.CacheImagePath);
+            var cachedFiles = Directory.GetFiles(CacheImagePath);
             var filePath = cachedFiles.FirstOrDefault(c => FileHelpers.GetImageId(c) == categoryId);
 
             if (filePath != null)
@@ -24,7 +36,7 @@ namespace NetCoreMentoring.App.Infrastructure
 
                 // update file name, so we can to scan and clean-up unused cache files by date stamp in file name
                 var newFileName = $"{DateTime.Now:MM-dd-yyyy}_{categoryId}.jpeg";
-                File.Move(filePath, Path.Combine(Globals.CacheImagePath, newFileName));
+                File.Move(filePath, Path.Combine(CacheImagePath, newFileName));
             }
         }
 
@@ -37,7 +49,7 @@ namespace NetCoreMentoring.App.Infrastructure
             var result = (FileContentResult)context.Result;
             var fileName = $"{DateTime.Now:MM-dd-yyyy}_{categoryId}.jpeg";
             File.WriteAllBytes(
-                Path.Combine(Path.Combine(Globals.CacheImagePath, fileName)), result.FileContents);
+                Path.Combine(Path.Combine(CacheImagePath, fileName)), result.FileContents);
         }
     }
 }

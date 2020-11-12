@@ -20,12 +20,15 @@ namespace NetCoreMentoring.App.Infrastructure
             {"image/jpeg", "jpeg"},
             {"image/png", "png"}
         };
+        private readonly string CacheImagePath;
         private readonly IConfiguration _configuration;
 
         public ImageCacheMiddleware(RequestDelegate next, IConfiguration configuration)
         {
             this.next = next;
             _configuration = configuration;
+
+            CacheImagePath = configuration["CacheImagePath"];
         }
 
         public async Task Invoke(HttpContext context)
@@ -46,8 +49,8 @@ namespace NetCoreMentoring.App.Infrastructure
 
                 if (SupportedPictureContentTypes.Keys.Contains(context.Response.ContentType ?? ""))
                 {
-                    if (Directory.GetFiles(Globals.CacheImagePath).Length >=
-                        int.Parse(Globals.CacheImagePath)) return;
+                    if (Directory.GetFiles(CacheImagePath).Length >=
+                        int.Parse(CacheImagePath)) return;
 
                     if (!context.Request.Query.TryGetValue("categoryId", out var categoryId)) return;
 
@@ -62,7 +65,7 @@ namespace NetCoreMentoring.App.Infrastructure
                     // Add image in cache
                     var fileName = $"{DateTime.Now:MM-dd-yyyy}_{categoryId}.{SupportedPictureContentTypes[context.Response.ContentType]}";
                     await using var targetStream = File.Create(
-                    Path.Combine(Path.Combine(Globals.CacheImagePath, fileName)));
+                    Path.Combine(Path.Combine(CacheImagePath, fileName)));
                     
                     memStream.Position = 0;
                     await memStream.CopyToAsync(targetStream);

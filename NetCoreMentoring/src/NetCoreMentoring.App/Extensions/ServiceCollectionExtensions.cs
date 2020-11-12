@@ -11,6 +11,7 @@ namespace NetCoreMentoring.App.Extensions
             IConfiguration configuration)
         {
             services.AddScoped<ActionInvocationLoggingAttribute>();
+            services.AddScoped<ImageCacheFilter>();
 
             return services;
         }
