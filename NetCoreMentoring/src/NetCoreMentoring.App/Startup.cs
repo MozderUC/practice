@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NetCoreMentoring.App.Extensions;
 using NetCoreMentoring.App.Infrastructure;
 using NetCoreMentoring.Core.Extensions;
 using NetCoreMentoring.Data.Extensions;
@@ -23,6 +24,7 @@ namespace NetCoreMentoring.App
         // Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddApp(Configuration);
             services.AddCore(Configuration);
             services.AddData(Configuration, DbConnectionStringName);
 
@@ -30,7 +32,10 @@ namespace NetCoreMentoring.App
                 typeof(App.Mapping.MappingProfile).Assembly,
                 typeof(Core.Mapping.MappingProfile).Assembly);
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add(typeof(ActionInvocationLoggingAttribute));
+            });
         }
 
         // Use this method to configure the HTTP request pipeline.

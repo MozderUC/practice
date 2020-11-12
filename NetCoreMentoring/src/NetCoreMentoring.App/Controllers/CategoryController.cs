@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using NetCoreMentoring.App.Infrastructure;
 using NetCoreMentoring.App.Models;

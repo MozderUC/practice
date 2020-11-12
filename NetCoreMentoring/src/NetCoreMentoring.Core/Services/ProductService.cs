@@ -37,6 +37,7 @@ namespace NetCoreMentoring.Core.Services
 
         public IEnumerable<Product> GetProducts()
         {
+            // TODO: add error handling
             var maxProductsOnPage = int.Parse(_configuration["MaxProductsOnPage"]);
 
             var result = _context.Products
