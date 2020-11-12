@@ -5,14 +5,14 @@ using Microsoft.Extensions.Logging;
 
 namespace NetCoreMentoring.App.Infrastructure
 {
-    public class ActionInvocationLoggingAttribute : IActionFilter
+    public class ActionInvocationLoggingFilter : IActionFilter
     {
         private readonly IConfiguration _configuration;
-        private readonly ILogger<ActionInvocationLoggingAttribute> _logger;
+        private readonly ILogger<ActionInvocationLoggingFilter> _logger;
 
-        public ActionInvocationLoggingAttribute(
+        public ActionInvocationLoggingFilter(
             IConfiguration configuration,
-            ILogger<ActionInvocationLoggingAttribute> logger)
+            ILogger<ActionInvocationLoggingFilter> logger)
         {
             _configuration = configuration;
             _logger = logger;

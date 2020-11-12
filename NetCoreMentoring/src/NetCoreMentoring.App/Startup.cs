@@ -34,7 +34,7 @@ namespace NetCoreMentoring.App
 
             services.AddControllersWithViews(options =>
             {
-                options.Filters.Add(typeof(ActionInvocationLoggingAttribute));
+                options.Filters.Add(typeof(ActionInvocationLoggingFilter));
             });
         }
 
