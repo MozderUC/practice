@@ -26,6 +26,7 @@ namespace NetCoreMentoring.App.Infrastructure
         public void OnResourceExecuting(ResourceExecutingContext context)
         {
             if (!context.HttpContext.Request.Query.TryGetValue("categoryId", out var categoryId)) return;
+            if (!Directory.Exists(CacheImagePath)) return;
 
             var cachedFiles = Directory.GetFiles(CacheImagePath);
             var filePath = cachedFiles.FirstOrDefault(c => FileHelpers.GetImageId(c) == categoryId);
@@ -45,6 +46,7 @@ namespace NetCoreMentoring.App.Infrastructure
         {
             if (!context.HttpContext.Request.Query.TryGetValue("categoryId", out var categoryId)) return;
             if (!(context.Result is FileContentResult)) return;
+            if (!Directory.Exists(CacheImagePath)) return;
 
             var result = (FileContentResult)context.Result;
             var fileName = $"{DateTime.Now:MM-dd-yyyy}_{categoryId}.jpeg";

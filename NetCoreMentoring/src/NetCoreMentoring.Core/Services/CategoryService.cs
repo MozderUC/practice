@@ -59,6 +59,8 @@ namespace NetCoreMentoring.Core.Services
             _context.Categories.Update(category);
             _context.SaveChanges();
 
+            if (!Directory.Exists(_configuration["CacheImagePath"])) return;
+
             var cachedFiles = Directory.GetFiles(_configuration["CacheImagePath"]);
             var filePath = cachedFiles.FirstOrDefault(c => FileHelpers.GetImageId(c) == categoryId.ToString());
 

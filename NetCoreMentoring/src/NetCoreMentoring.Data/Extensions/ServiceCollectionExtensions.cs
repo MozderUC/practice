@@ -9,11 +9,17 @@ namespace NetCoreMentoring.Data.Extensions
         public static IServiceCollection AddData(
             this IServiceCollection services,
             IConfiguration configuration,
-            string dbConnectionStringName)
+            string dbConnectionStringName,
+            string rootPath)
         {
+            var connectionString = configuration.GetConnectionString(dbConnectionStringName);
+            if (connectionString.Contains("%CONTENTROOTPATH%"))
+            {
+                connectionString = connectionString.Replace("%CONTENTROOTPATH%", rootPath);
+            }
             services.AddDbContext<NorthwindContext>(options =>
             {
-                options.UseSqlServer(configuration.GetConnectionString(dbConnectionStringName));
+                options.UseSqlServer(connectionString);
             });
 
             return services;

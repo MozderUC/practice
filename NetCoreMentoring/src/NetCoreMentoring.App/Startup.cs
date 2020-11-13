@@ -1,3 +1,4 @@
+using System.IO;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -12,11 +13,13 @@ namespace NetCoreMentoring.App
 {
     public class Startup
     {
+        private readonly string _contentRootPath;
         private const string DbConnectionStringName = "MyConnection";
 
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment host)
         {
             Configuration = configuration;
+            _contentRootPath = host.ContentRootPath;
         }
 
         public IConfiguration Configuration { get; }
@@ -26,7 +29,7 @@ namespace NetCoreMentoring.App
         {
             services.AddApp(Configuration);
             services.AddCore(Configuration);
-            services.AddData(Configuration, DbConnectionStringName);
+            services.AddData(Configuration, DbConnectionStringName, _contentRootPath);
 
             services.AddAutoMapper(
                 typeof(App.Mapping.MappingProfile).Assembly,
