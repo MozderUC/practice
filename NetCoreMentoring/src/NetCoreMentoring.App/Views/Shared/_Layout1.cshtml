@@ -32,7 +32,12 @@
             </div>
         </nav>
         @RenderSection("Header", false)
-        @await Component.InvokeAsync("Breadcrumbs", new { url = Context.Request.Path.Value})
+
+        @RenderSection("Breadcrumbs", required: false)
+        @if (!IsSectionDefined("Breadcrumbs"))
+        {
+            @await Component.InvokeAsync("Breadcrumbs", new { url = Context.Request.Path.Value})
+        }
     </header>
     <div class="container">
         <main role="main" class="pb-3">

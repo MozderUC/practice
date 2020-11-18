@@ -1,9 +1,11 @@
-﻿@model List<string>
-
-@{
-    var navigationPath = Model.Aggregate((x,y) => x + " -> " + y);
-}
+﻿@model List<NetCoreMentoring.App.Models.BreadcrumbViewModel>
 
 <div class="container">
-    @navigationPath
+    @Html.ActionLink(Model.ElementAt(0).NavigationName, "", Model.ElementAt(0).ControllerName) ->
+    @Html.ActionLink(Model.ElementAt(1).NavigationName, "", Model.ElementAt(1).ControllerName)
+    @if(Model.ElementAtOrDefault(2).NavigationName != null)
+    { 
+        @:->
+        @Model.ElementAt(2).NavigationName
+    }
 </div>

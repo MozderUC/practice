@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using NetCoreMentoring.App.Models;
 
 namespace NetCoreMentoring.App.ViewComponents
 {
@@ -8,19 +10,23 @@ namespace NetCoreMentoring.App.ViewComponents
     {
         public async Task<IViewComponentResult> InvokeAsync(string url)
         {
-            var pathComponents = new List<string>() {"Home"};
-
-            pathComponents.AddRange(GetPathComponents(url));
-
-            return View("Default", pathComponents);
-
+            return View("Default", GetBreadcrumbs(url));
         }
 
-        private IEnumerable<string> GetPathComponents(string url)
+        private List<BreadcrumbViewModel> GetBreadcrumbs(string url)
         {
-            return url.StartsWith('/')
-                ? url.Substring(1).Split('/')
-                : url.Split('/');
+            var pathComponents = url.StartsWith('/')
+                ? url.Substring(1).Split('/').ToList()
+                : url.Split('/').ToList();
+
+            var result = new List<BreadcrumbViewModel>()
+            {
+                new BreadcrumbViewModel() {ControllerName = "Home", NavigationName = "Home"},
+                new BreadcrumbViewModel() {ControllerName = pathComponents.ElementAtOrDefault(0), NavigationName = pathComponents.ElementAtOrDefault(0)},
+                new BreadcrumbViewModel() {ControllerName = pathComponents.ElementAtOrDefault(0), NavigationName = pathComponents.ElementAtOrDefault(1)}
+            };
+
+            return result;
         }
     }
 }
