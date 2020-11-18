@@ -31,7 +31,8 @@
                 </div>
             </div>
         </nav>
-        @RenderSection("Header", false);
+        @RenderSection("Header", false)
+        @await Component.InvokeAsync("Breadcrumbs", new { url = Context.Request.Path.Value})
     </header>
     <div class="container">
         <main role="main" class="pb-3">

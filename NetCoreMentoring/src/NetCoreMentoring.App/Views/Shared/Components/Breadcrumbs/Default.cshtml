@@ -1,0 +1,9 @@
+﻿@model List<string>
+
+@{
+    var navigationPath = Model.Aggregate((x,y) => x + " -> " + y);
+}
+
+<div class="container">
+    @navigationPath
+</div>
