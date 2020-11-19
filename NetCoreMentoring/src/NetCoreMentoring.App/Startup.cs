@@ -64,9 +64,9 @@ namespace NetCoreMentoring.App
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(name: "blog",
+                endpoints.MapControllerRoute(name: "images",
                     pattern: "images/{categoryId}",
-                    defaults: new { controller = "Category", action = "Picture" });
+                    defaults: new { controller = "Category", action = "GetPicture"});
                 endpoints.MapControllerRoute(
                     "default",
                     "{controller=Home}/{action=Index}/{id?}");
