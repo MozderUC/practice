@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using Microsoft.AspNetCore.Http;
+using NetCoreMentoring.Core.Utilities.ResultFlow;
 
 namespace NetCoreMentoring.Core.Utilities
 {
@@ -30,7 +31,7 @@ namespace NetCoreMentoring.Core.Utilities
             }
         };
 
-        public static byte[] ProcessFormFile(
+        public static Result<byte[]> ProcessFormFile(
             IFormFile formFile)
         {
             var fileName = WebUtility.HtmlEncode(
@@ -38,15 +39,12 @@ namespace NetCoreMentoring.Core.Utilities
 
             if (formFile.Length == 0)
             {
-                //TODO: return error file is empty
-                throw new Exception();
+                return Result.Failure<byte[]>(new Error("File is empty."));
             }
 
             if (formFile.Length > SizeLimit)
             {
-                var megabyteSizeLimit = SizeLimit / 1048576;
-                //TODO: return error file size limit
-                throw new Exception();
+                return Result.Failure<byte[]>(new Error("File size more than limit."));
             }
 
             using var memoryStream = new MemoryStream();
@@ -54,18 +52,16 @@ namespace NetCoreMentoring.Core.Utilities
 
             if (memoryStream.Length == 0)
             {
-                //TODO: return error file is empty
-                throw new Exception();
+                return Result.Failure<byte[]>(new Error("File is empty."));
             }
 
             if (!IsValidFileExtensionAndSignature(
                 formFile.FileName, memoryStream, PermittedExtensions))
             {
-                //TODO: return error file extension is not supported
-                throw new Exception();
+                return Result.Failure<byte[]>(new Error("File extension is not supported"));
             }
 
-            return memoryStream.ToArray();
+            return Result.Success(memoryStream.ToArray());
         }
 
         public static string GetImageId(string imagePath)

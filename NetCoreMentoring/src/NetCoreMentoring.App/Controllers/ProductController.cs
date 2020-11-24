@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using NetCoreMentoring.App.Infrastructure;
 using NetCoreMentoring.App.Models;
+using NetCoreMentoring.Core.Models;
 using NetCoreMentoring.Core.Services.Contracts;
 
 namespace NetCoreMentoring.App.Controllers
 {
-    public class ProductController : Controller
+    public class ProductController : ControllerMvcBase
     {
         private readonly IProductService _productService;
         private readonly ICategoryService _categoryService;
@@ -20,6 +21,7 @@ namespace NetCoreMentoring.App.Controllers
             ICategoryService categoryService,
             IMapper mapper,
             ILogger<ProductController> logger)
+            :base(mapper)
         {
             _productService = productService;
             _categoryService = categoryService;
@@ -29,98 +31,45 @@ namespace NetCoreMentoring.App.Controllers
 
         public IActionResult Index()
         {
-            try
-            {
-                var products = _productService.GetProducts();
+            var result = _productService.GetProducts();
 
-                return View(_mapper.Map<IEnumerable<ProductViewModel>>(products));
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Exception was occurred in {Method}.", nameof(Index));
-                throw;
-            }
+            return RequestResult<IEnumerable<Product>, IEnumerable<ProductViewModel>>(result, View().ViewName);
         }
 
         public IActionResult Edit(int id)
         {
-            try
-            {
-                var product = _productService.GetProduct(id);
-                var categories = _categoryService.GetCategories();
+            var result = _productService.GetProductWithCategories(id);
 
-                if (product == null)
-                {
-                    return NotFound();
-                }
-
-                return View(new ModifyProductViewModel()
-                {
-                    Product = _mapper.Map<ProductViewModel>(product),
-                    Categories = _mapper.Map<IEnumerable<CategoryViewModel>>(categories)
-                });
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Exception was occurred in {Method}. Id: {Id}", nameof(Edit), id);
-                throw;
-            }
+            return RequestResult<ProductAndCategories, ProductAndCategoriesViewModel>(result, View().ViewName);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, ModifyProductViewModel modifyProductViewModel)
+        public IActionResult Edit(int id, ProductAndCategoriesViewModel productAndCategoriesViewModel)
         {
-            try
-            {
-                if (!ModelState.IsValid) return BadRequest(ModelState);
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+            var result = _productService.Update(_mapper.Map<Product>(productAndCategoriesViewModel.Product));
 
-                _productService.Update(_mapper.Map<Core.Models.Product>(modifyProductViewModel.Product));
+            return RedirectToAction(result, nameof(Index));
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Exception was occurred in {Method}. Id: {Id}; Product: {@Product}", nameof(Edit), id, modifyProductViewModel);
-                throw;
-            }
         }
 
         public IActionResult Create()
         {
-            try
-            {
-                var categories = _categoryService.GetCategories();
+            var categories = _categoryService.GetCategories();
 
-                return View(new ModifyProductViewModel()
-                {
-                    Categories = _mapper.Map<IEnumerable<CategoryViewModel>>(categories)
-                });
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Exception was occurred in {Method}. Id: {Id}", nameof(Create));
-                throw;
-            }
+            return RequestResult<IEnumerable<Category>, ProductAndCategoriesViewModel>(categories, View().ViewName);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(ModifyProductViewModel modifyProductViewModel)
+        public IActionResult Create(ProductAndCategoriesViewModel productAndCategoriesViewModel)
         {
-            try
-            {
-                if (!ModelState.IsValid) return BadRequest(ModelState);
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+            var result = _productService.Create(_mapper.Map<Product>(productAndCategoriesViewModel.Product));
 
-                _productService.Create(_mapper.Map<Core.Models.Product>(modifyProductViewModel.Product));
+            return RedirectToAction(result, nameof(Index));
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Exception was occurred in {Method}. Product: {@Product}", nameof(Create), modifyProductViewModel);
-                throw;
-            }
         }
     }
 }

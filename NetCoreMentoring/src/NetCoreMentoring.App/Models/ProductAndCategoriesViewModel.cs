@@ -2,7 +2,7 @@
 
 namespace NetCoreMentoring.App.Models
 {
-    public class ModifyProductViewModel
+    public class ProductAndCategoriesViewModel
     {
         public ProductViewModel Product { get; set; }
 

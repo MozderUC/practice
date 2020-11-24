@@ -5,11 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NetCoreMentoring.App.Infrastructure;
 using NetCoreMentoring.App.Models;
+using NetCoreMentoring.Core.Models;
 using NetCoreMentoring.Core.Services.Contracts;
 
 namespace NetCoreMentoring.App.Controllers
 {
-    public class CategoryController : Controller
+    public class CategoryController : ControllerMvcBase
     {
         private readonly ICategoryService _categoryService;
         private readonly IMapper _mapper;
@@ -19,6 +20,7 @@ namespace NetCoreMentoring.App.Controllers
             ICategoryService categoryService,
             IMapper mapper,
             ILogger<CategoryController> logger)
+            :base(mapper)
         {
             _logger = logger;
             _mapper = mapper;
@@ -27,15 +29,9 @@ namespace NetCoreMentoring.App.Controllers
 
         public IActionResult Index()
         {
-            try
-            {
-                return View(_mapper.Map<IEnumerable<CategoryViewModel>>(_categoryService.GetCategories()));
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Exception was occurred in {Method}.", nameof(Index));
-                throw;
-            }
+            var result = _categoryService.GetCategories();
+
+            return RequestResult<IEnumerable<Category>,IEnumerable<CategoryViewModel>>(result, View().ViewName);
         }
 
         //[ServiceFilter(typeof(ImageCacheFilter))]
@@ -43,19 +39,21 @@ namespace NetCoreMentoring.App.Controllers
         {
             return File(_categoryService.GetPicture(categoryId), "image/jpeg");
         }
-
+        
         public IActionResult UpdatePicture(int categoryId)
         {
-            return View(_mapper.Map<CategoryPictureViewModel>(_categoryService.GetCategory(categoryId)));
-        }
+            var category = _categoryService.GetCategory(categoryId);
 
+            return RequestResult<Category, CategoryPictureViewModel>(category, View().ViewName);
+        }
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult UpdatePicture(CategoryPictureViewModel categoryPictureViewModel)
         {
-            _categoryService.UpdatePicture(categoryPictureViewModel.CategoryId, categoryPictureViewModel.FormFile);
+            var result = _categoryService.UpdatePicture(categoryPictureViewModel.CategoryId, categoryPictureViewModel.FormFile);
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(result, nameof(Index));
         }
     }
 }
