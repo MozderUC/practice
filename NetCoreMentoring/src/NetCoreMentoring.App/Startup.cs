@@ -32,6 +32,7 @@ namespace NetCoreMentoring.App
             services.AddApp(Configuration);
             services.AddCore(Configuration);
             services.AddData(Configuration, DbConnectionStringName, _contentRootPath);
+            services.AddApiVersioning();
 
             services.AddAutoMapper(
                 typeof(App.Mapping.MappingProfile).Assembly,
