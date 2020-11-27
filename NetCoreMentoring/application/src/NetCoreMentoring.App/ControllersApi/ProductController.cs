@@ -6,7 +6,7 @@ using NetCoreMentoring.App.Models;
 using NetCoreMentoring.Core.Models;
 using NetCoreMentoring.Core.Services.Contracts;
 
-namespace NetCoreMentoring.App.ApiControllers
+namespace NetCoreMentoring.App.ControllersApi
 {
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/products")]
@@ -42,8 +42,8 @@ namespace NetCoreMentoring.App.ApiControllers
             return RequestResult(result);
         }
 
-        [HttpPost(Name = "Create")]
-        public IActionResult Create(ProductViewModel product)
+        [HttpPost(Name = "CreateProduct")]
+        public IActionResult CreateProduct(ProductViewModel product)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var result = _productService.Create(_mapper.Map<Product>(product));

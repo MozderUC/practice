@@ -7,7 +7,7 @@ using NetCoreMentoring.App.Models;
 using NetCoreMentoring.Core.Models;
 using NetCoreMentoring.Core.Services.Contracts;
 
-namespace NetCoreMentoring.App.ApiControllers
+namespace NetCoreMentoring.App.ControllersApi
 {
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/categories")]
