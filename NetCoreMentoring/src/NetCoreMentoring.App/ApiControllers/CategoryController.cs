@@ -42,7 +42,6 @@ namespace NetCoreMentoring.App.ApiControllers
         }
 
         [HttpPut("{id:int}/picture", Name = "UpdatePicture")]
-        [ValidateAntiForgeryToken]
         public IActionResult UpdatePicture(CategoryPictureViewModel categoryPictureViewModel)
         {
             var result = _categoryService.UpdatePicture(categoryPictureViewModel.CategoryId, categoryPictureViewModel.FormFile);
