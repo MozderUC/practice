@@ -1,4 +1,5 @@
 ﻿@using NetCoreMentoring.App.Controllers
+@using NetCoreMentoring.App.Models
 @model IEnumerable<NetCoreMentoring.App.Models.CategoryViewModel>
 
 @{
@@ -41,7 +42,7 @@
                 @Html.DisplayFor(modelItem => category.Description)
             </td>
             <td>
-                @Html.ActionLink("picture", nameof(CategoryController.GetPicture), new {categoryId = category.CategoryId})
+                @Html.ActionLink("picture", nameof(CategoryController.GetPicture), new {categoryId = category.CategoryId, format = AcceptFormatTypes.Picture})
             </td>
             <td>
                 @Html.ActionLink("update picture", nameof(CategoryController.UpdatePicture), new {categoryId = category.CategoryId})

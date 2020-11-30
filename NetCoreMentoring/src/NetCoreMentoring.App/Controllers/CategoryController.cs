@@ -38,7 +38,7 @@ namespace NetCoreMentoring.App.Controllers
             }
         }
 
-        [ServiceFilter(typeof(ImageCacheFilter))]
+        //[ServiceFilter(typeof(ImageCacheFilter))]
         public IActionResult GetPicture(int categoryId)
         {
             return File(_categoryService.GetPicture(categoryId), "image/jpeg");
