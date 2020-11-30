@@ -34,7 +34,7 @@ namespace NetCoreMentoring.App.ControllersApi
         }
 
         [HttpPut("{id:int}", Name = "EditProduct")]
-        public IActionResult EditProduct(int id, ProductViewModel product)
+        public IActionResult EditProduct([FromRoute]int id, [FromBody]ProductViewModel product)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var result = _productService.Update(_mapper.Map<Product>(product));
@@ -43,7 +43,7 @@ namespace NetCoreMentoring.App.ControllersApi
         }
 
         [HttpPost(Name = "CreateProduct")]
-        public IActionResult CreateProduct(ProductViewModel product)
+        public IActionResult CreateProduct([FromBody]ProductViewModel product)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var result = _productService.Create(_mapper.Map<Product>(product));

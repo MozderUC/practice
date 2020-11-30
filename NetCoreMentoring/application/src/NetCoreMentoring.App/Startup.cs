@@ -10,6 +10,7 @@ using NetCoreMentoring.App.Infrastructure;
 using NetCoreMentoring.App.Models;
 using NetCoreMentoring.Core.Extensions;
 using NetCoreMentoring.Data.Extensions;
+using Microsoft.OpenApi.Models;
 
 namespace NetCoreMentoring.App
 {
@@ -38,6 +39,12 @@ namespace NetCoreMentoring.App
                 typeof(App.Mapping.MappingProfile).Assembly,
                 typeof(Core.Mapping.MappingProfile).Assembly);
 
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+            });
+
             services.AddControllersWithViews(options =>
             {
                 options.Filters.Add(typeof(ActionInvocationLoggingFilter));
@@ -51,6 +58,11 @@ namespace NetCoreMentoring.App
             {
                 context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
                 await next.Invoke();
+            });
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
 
             app.UseDeveloperExceptionPage();

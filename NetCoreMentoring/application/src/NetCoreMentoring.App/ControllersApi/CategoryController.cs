@@ -36,13 +36,13 @@ namespace NetCoreMentoring.App.ControllersApi
 
         [HttpGet("{id:int}/picture", Name = "GetPicture")]
         [ServiceFilter(typeof(ImageCacheFilter))]
-        public IActionResult GetPicture(int id)
+        public IActionResult GetPicture([FromRoute]int id)
         {
             return File(_categoryService.GetPicture(id), "image/jpeg");
         }
 
         [HttpPut("{id:int}/picture", Name = "UpdatePicture")]
-        public IActionResult UpdatePicture(CategoryPictureViewModel categoryPictureViewModel)
+        public IActionResult UpdatePicture([FromForm]CategoryPictureViewModel categoryPictureViewModel)
         {
             var result = _categoryService.UpdatePicture(categoryPictureViewModel.CategoryId, categoryPictureViewModel.FormFile);
 
