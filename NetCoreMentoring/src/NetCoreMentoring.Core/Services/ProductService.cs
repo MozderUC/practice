@@ -37,14 +37,14 @@ namespace NetCoreMentoring.Core.Services
 
         public IEnumerable<Product> GetProducts()
         {
-            //TODO: add exception handling
+            // TODO: add error handling
             var maxProductsOnPage = int.Parse(_configuration["MaxProductsOnPage"]);
 
             var result = _context.Products
-                .Take(maxProductsOnPage)
                 .Include(p => p.Category)
                 .Include(p => p.Supplier)
                 .AsEnumerable();
+            result = maxProductsOnPage == 0 ? result : result.Take(maxProductsOnPage);
 
             return _mapper.Map<IEnumerable<Product>>(result);
         }

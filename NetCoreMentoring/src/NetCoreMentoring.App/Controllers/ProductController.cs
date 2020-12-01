@@ -73,7 +73,7 @@ namespace NetCoreMentoring.App.Controllers
         {
             try
             {
-                if (!ModelState.IsValid) return View(modifyProductViewModel);
+                if (!ModelState.IsValid) return BadRequest(ModelState);
 
                 _productService.Update(_mapper.Map<Core.Models.Product>(modifyProductViewModel.Product));
 
@@ -110,7 +110,7 @@ namespace NetCoreMentoring.App.Controllers
         {
             try
             {
-                if (!ModelState.IsValid) return View(modifyProductViewModel);
+                if (!ModelState.IsValid) return BadRequest(ModelState);
 
                 _productService.Create(_mapper.Map<Core.Models.Product>(modifyProductViewModel.Product));
 

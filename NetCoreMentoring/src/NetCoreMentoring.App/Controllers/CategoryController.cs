@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using NetCoreMentoring.App.Infrastructure;
 using NetCoreMentoring.App.Models;
 using NetCoreMentoring.Core.Services.Contracts;
 
@@ -15,9 +16,9 @@ namespace NetCoreMentoring.App.Controllers
         private readonly ILogger<CategoryController> _logger;
 
         public CategoryController(
-            ILogger<CategoryController> logger,
+            ICategoryService categoryService,
             IMapper mapper,
-            ICategoryService categoryService)
+            ILogger<CategoryController> logger)
         {
             _logger = logger;
             _mapper = mapper;
@@ -37,5 +38,24 @@ namespace NetCoreMentoring.App.Controllers
             }
         }
 
+        //[ServiceFilter(typeof(ImageCacheFilter))]
+        public IActionResult GetPicture(int categoryId)
+        {
+            return File(_categoryService.GetPicture(categoryId), "image/jpeg");
+        }
+
+        public IActionResult UpdatePicture(int categoryId)
+        {
+            return View(_mapper.Map<CategoryPictureViewModel>(_categoryService.GetCategory(categoryId)));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult UpdatePicture(CategoryPictureViewModel categoryPictureViewModel)
+        {
+            _categoryService.UpdatePicture(categoryPictureViewModel.CategoryId, categoryPictureViewModel.FormFile);
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

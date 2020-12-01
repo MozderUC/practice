@@ -12,6 +12,8 @@ namespace NetCoreMentoring.App.Mapping
             CreateMap<ProductViewModel, Core.Models.Product>().ReverseMap();
 
             CreateMap<SupplierViewModel, Core.Models.Supplier>().ReverseMap();
+
+            CreateMap<CategoryPictureViewModel, Core.Models.Category>().ReverseMap();
         }
     }
 }
