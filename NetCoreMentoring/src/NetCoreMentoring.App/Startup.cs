@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
@@ -6,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetCoreMentoring.App.Extensions;
 using NetCoreMentoring.App.Infrastructure;
+using NetCoreMentoring.App.Models;
 using NetCoreMentoring.Core.Extensions;
 using NetCoreMentoring.Data.Extensions;
 
@@ -49,7 +51,15 @@ namespace NetCoreMentoring.App
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-            app.UseMiddleware<ImageCacheMiddleware>();
+            app.UseMiddleware<ImageCacheMiddleware>(
+                Configuration,
+                new CachingOptions
+                {
+                    CachedCodePath = new Dictionary<string, string>()
+                    {
+                        {"/Category/GetPicture", "categoryId"}
+                    }
+                });
 
             app.UseRouting();
             app.UseEndpoints(endpoints =>

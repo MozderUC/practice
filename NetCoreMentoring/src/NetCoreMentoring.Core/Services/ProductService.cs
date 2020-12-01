@@ -41,10 +41,10 @@ namespace NetCoreMentoring.Core.Services
             var maxProductsOnPage = int.Parse(_configuration["MaxProductsOnPage"]);
 
             var result = _context.Products
-                .Take(maxProductsOnPage == 0 ? int.MaxValue : maxProductsOnPage)
                 .Include(p => p.Category)
                 .Include(p => p.Supplier)
                 .AsEnumerable();
+            result = maxProductsOnPage == 0 ? result : result.Take(maxProductsOnPage);
 
             return _mapper.Map<IEnumerable<Product>>(result);
         }

@@ -70,7 +70,15 @@ namespace NetCoreMentoring.Core.Utilities
 
         public static string GetImageId(string imagePath)
         {
-            return imagePath.Split('_')[1].Split('.')[0];
+            return Path.GetFileName(imagePath).Split('_')[1].Split('.')[0];
+        }
+
+        public static DateTime GetTimeStampForCachedFile(string imagePath)
+        {
+            return DateTime.ParseExact(
+                Path.GetFileName(imagePath).Split('_')[0],
+                Constants.CacheTimeStampFormat,
+                null);
         }
 
         private static bool IsValidFileExtensionAndSignature(
