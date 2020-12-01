@@ -31,7 +31,7 @@ namespace NetCoreMentoring.App.Infrastructure
             var isMiddlewareApplicable = _cachingOptions.CachedCodePath.TryGetValue(context.Request.Path, out var cachedKey);
 
             // check if we can apply caching
-            if (!context.Request.Query.TryGetValue(cachedKey, out var imageId)) isMiddlewareApplicable = false;
+            if (!context.Request.Query.TryGetValue(cachedKey ?? "", out var imageId)) isMiddlewareApplicable = false;
             if (!Directory.Exists(_cacheImagePath)) isMiddlewareApplicable = false;
             if (!context.Request.Query.TryGetValue("format", out var format) ||
                 format.ToString() != AcceptFormatTypes.Picture.ToString()) isMiddlewareApplicable = false;
