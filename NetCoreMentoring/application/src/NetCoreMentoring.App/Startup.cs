@@ -18,6 +18,7 @@ namespace NetCoreMentoring.App
     {
         private readonly string _contentRootPath;
         private const string DbConnectionStringName = "MyConnection";
+        private const string IdentityDbConnectionStringName = "Identity";
 
         public Startup(IConfiguration configuration, IWebHostEnvironment host)
         {
@@ -30,7 +31,7 @@ namespace NetCoreMentoring.App
         // Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddApp(Configuration);
+            services.AddApp(Configuration, IdentityDbConnectionStringName, _contentRootPath);
             services.AddCore(Configuration);
             services.AddData(Configuration, DbConnectionStringName, _contentRootPath);
             services.AddApiVersioning();
@@ -81,6 +82,10 @@ namespace NetCoreMentoring.App
                 });
 
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
                 //endpoints.MapControllerRoute(name: "images",
@@ -89,6 +94,7 @@ namespace NetCoreMentoring.App
                 endpoints.MapControllerRoute(
                     "default",
                     "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
         }
     }
