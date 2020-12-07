@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,8 +25,15 @@ namespace NetCoreMentoring.App.Extensions
             }
             services.AddDbContext<IdentityContext>(options =>
                 options.UseSqlServer(connectionString));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+
+            // This adds AspNetCore Identity Authentication
+            services.AddDefaultIdentity<IdentityUser>()
                 .AddEntityFrameworkStores<IdentityContext>();
+
+            // This adds Azure AD Authentication
+            //services.AddMicrosoftIdentityWebAppAuthentication(configuration);
+            //services.AddRazorPages()
+            //    .AddMicrosoftIdentityUI();
 
             return services;
         }
