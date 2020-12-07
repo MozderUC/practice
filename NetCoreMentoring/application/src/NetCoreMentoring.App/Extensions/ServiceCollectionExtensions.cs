@@ -28,6 +28,7 @@ namespace NetCoreMentoring.App.Extensions
 
             // This adds AspNetCore Identity Authentication
             services.AddDefaultIdentity<IdentityUser>()
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<IdentityContext>();
 
             // This adds Azure AD Authentication
