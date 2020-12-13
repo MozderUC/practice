@@ -94,16 +94,6 @@ namespace NetCoreMentoring.Core.Services
                 _context.Categories.Update(category);
                 _context.SaveChanges();
 
-                if (!Directory.Exists(_configuration["CacheImagePath"])) return Result.Failure(new Error("Cache directory don't setup."));
-
-                var cachedFiles = Directory.GetFiles(_configuration["CacheImagePath"]);
-                var filePath = cachedFiles.FirstOrDefault(c => FileHelpers.GetImageId(c) == categoryId.ToString());
-
-                if (filePath != null)
-                {
-                    File.Delete(filePath);
-                }
-
                 return Result.Success();
             }
             catch (Exception e)
