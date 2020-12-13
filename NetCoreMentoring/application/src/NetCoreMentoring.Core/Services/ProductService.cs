@@ -18,20 +18,17 @@ namespace NetCoreMentoring.Core.Services
         private readonly NorthwindContext _context;
         private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
-        private readonly ILogger<ProductService> _logger;
 
         public ProductService(
             ICategoryService categoryService,
             NorthwindContext context,
             IConfiguration configuration,
-            IMapper mapper,
-            ILogger<ProductService> logger)
+            IMapper mapper)
         {
             _categoryService = categoryService;
             _context = context;
             _configuration = configuration;
             _mapper = mapper;
-            _logger = logger;
         }
 
         public Result<IEnumerable<Product>> GetProducts()

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace NetCoreMentoring.Core
+﻿namespace NetCoreMentoring.Core
 {
     public static class Constants
     {

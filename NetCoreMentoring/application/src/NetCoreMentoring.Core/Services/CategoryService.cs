@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using NetCoreMentoring.Core.Models;
 using NetCoreMentoring.Core.Services.Contracts;
 using NetCoreMentoring.Core.Utilities;
@@ -14,21 +11,15 @@ namespace NetCoreMentoring.Core.Services
 {
     public class CategoryService : ICategoryService
     {
-        private readonly IConfiguration _configuration;
         private readonly NorthwindContext _context;
         private readonly IMapper _mapper;
-        private readonly ILogger<CategoryService> _logger;
 
         public CategoryService(
-            IConfiguration configuration,
             NorthwindContext context,
-            IMapper mapper,
-            ILogger<CategoryService> logger)
+            IMapper mapper)
         {
-            _configuration = configuration;
             _context = context;
             _mapper = mapper;
-            _logger = logger;
         }
 
         public Result<IEnumerable<Category>> GetCategories()
