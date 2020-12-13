@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>db8861b4-d789-4a4d-bdcc-bfe314eca603</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -30,7 +31,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NetCoreMentoring.Core\NetCoreMentoring.Core.csproj" />
-    <ProjectReference Include="..\NetCoreMentoring.Data\NetCoreMentoring.Data.csproj" />
   </ItemGroup>
 
   <ItemGroup>

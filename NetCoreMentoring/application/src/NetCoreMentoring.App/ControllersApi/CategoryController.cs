@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -44,8 +45,10 @@ namespace NetCoreMentoring.App.ControllersApi
         [HttpPut("{id:int}/picture", Name = "UpdatePicture")]
         public IActionResult UpdatePicture([FromForm]CategoryPictureViewModel categoryPictureViewModel)
         {
-            var result = _categoryService.UpdatePicture(categoryPictureViewModel.CategoryId, categoryPictureViewModel.FormFile);
+            var newPicture = new MemoryStream();
+            categoryPictureViewModel.FormFile.CopyTo(newPicture);
 
+            var result = _categoryService.UpdatePicture(categoryPictureViewModel.CategoryId, categoryPictureViewModel.FormFile.FileName, newPicture.ToArray());
             return RequestResult(result, HttpStatusCode.NoContent);
         }
     }

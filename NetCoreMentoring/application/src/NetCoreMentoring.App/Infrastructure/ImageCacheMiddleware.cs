@@ -10,8 +10,6 @@ using NetCoreMentoring.Core.Utilities;
 
 namespace NetCoreMentoring.App.Infrastructure
 {
-    // I use caching with help of attribute instead
-    // I didn't delete it just to complete the module's homework
     public class ImageCacheMiddleware
     {
         private readonly RequestDelegate _next;

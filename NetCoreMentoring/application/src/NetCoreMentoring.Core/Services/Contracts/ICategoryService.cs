@@ -13,6 +13,6 @@ namespace NetCoreMentoring.Core.Services.Contracts
 
         public Result<byte[]> GetPicture(int categoryId);
 
-        public Result UpdatePicture(int categoryId, IFormFile newPicture);
+        public Result UpdatePicture(int categoryId, string pictureName, byte[] picture);
     }
 }
