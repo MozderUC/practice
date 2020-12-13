@@ -31,7 +31,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NetCoreMentoring.Core\NetCoreMentoring.Core.csproj" />
-    <ProjectReference Include="..\NetCoreMentoring.Data\NetCoreMentoring.Data.csproj" />
   </ItemGroup>
 
   <ItemGroup>

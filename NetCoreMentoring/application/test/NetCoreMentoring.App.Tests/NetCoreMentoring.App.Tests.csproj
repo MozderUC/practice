@@ -17,7 +17,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\NetCoreMentoring.App\NetCoreMentoring.App.csproj" />
     <ProjectReference Include="..\..\src\NetCoreMentoring.Core\NetCoreMentoring.Core.csproj" />
-    <ProjectReference Include="..\..\src\NetCoreMentoring.Data\NetCoreMentoring.Data.csproj" />
   </ItemGroup>
 
 </Project>

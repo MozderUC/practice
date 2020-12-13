@@ -1,30 +1,26 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using AutoMapper;
+using NetCoreMentoring.Core.DataContext;
 using NetCoreMentoring.Core.Models;
 using NetCoreMentoring.Core.Services.Contracts;
 using NetCoreMentoring.Core.Utilities;
 using NetCoreMentoring.Core.Utilities.ResultFlow;
-using NetCoreMentoring.Data;
 
 namespace NetCoreMentoring.Core.Services
 {
     public class CategoryService : ICategoryService
     {
         private readonly NorthwindContext _context;
-        private readonly IMapper _mapper;
 
         public CategoryService(
-            NorthwindContext context,
-            IMapper mapper)
+            NorthwindContext context)
         {
             _context = context;
-            _mapper = mapper;
         }
 
         public Result<IEnumerable<Category>> GetCategories()
         {
-            return Result.Success(_mapper.Map<IEnumerable<Category>>(_context.Categories.AsEnumerable()));
+            return Result.Success(_context.Categories.AsEnumerable());
         }
 
         public Result<Category> GetCategory(int categoryId)
@@ -33,7 +29,7 @@ namespace NetCoreMentoring.Core.Services
 
             return result == null
                 ? Result.NotFound<Category>(new Error("Category don't found."))
-                : Result.Success(_mapper.Map<Category>(result));
+                : Result.Success(result);
         }
 
         public Result<byte[]> GetPicture(int categoryId)
@@ -42,7 +38,7 @@ namespace NetCoreMentoring.Core.Services
 
             return category == null
                 ? Result.NotFound<byte[]>(new Error("Category don't found."))
-                : Result.Success(category.Picture);
+                : Result.Success(category.ImageBytes);
         }
 
         public Result UpdatePicture(int categoryId, string pictureName, byte[] picture)
@@ -52,7 +48,7 @@ namespace NetCoreMentoring.Core.Services
 
             if (!processFormFileResult.IsSuccess) return processFormFileResult;
 
-            category.Picture = processFormFileResult.Value;
+            category.ImageBytes = processFormFileResult.Value;
 
             _context.Categories.Update(category);
             _context.SaveChanges();

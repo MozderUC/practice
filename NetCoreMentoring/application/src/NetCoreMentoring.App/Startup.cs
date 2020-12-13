@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.IO;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -9,7 +8,6 @@ using NetCoreMentoring.App.Extensions;
 using NetCoreMentoring.App.Infrastructure;
 using NetCoreMentoring.App.Models;
 using NetCoreMentoring.Core.Extensions;
-using NetCoreMentoring.Data.Extensions;
 using Microsoft.OpenApi.Models;
 
 namespace NetCoreMentoring.App
@@ -32,8 +30,7 @@ namespace NetCoreMentoring.App
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddApp(Configuration, IdentityDbConnectionStringName, _contentRootPath);
-            services.AddCore(Configuration);
-            services.AddData(Configuration, DbConnectionStringName, _contentRootPath);
+            services.AddCore(Configuration.GetConnectionString(DbConnectionStringName), _contentRootPath);
             services.AddApiVersioning();
 
             services.AddAutoMapper(
