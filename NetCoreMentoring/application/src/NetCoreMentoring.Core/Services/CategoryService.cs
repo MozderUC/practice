@@ -80,12 +80,12 @@ namespace NetCoreMentoring.Core.Services
             }
         }
 
-        public Result UpdatePicture(int categoryId, IFormFile newPicture)
+        public Result UpdatePicture(int categoryId, string pictureName, byte[] picture)
         {
             try
             {
                 var category = _context.Categories.Find(categoryId);
-                var processFormFileResult = FileHelpers.ProcessFormFile(newPicture);
+                var processFormFileResult = FileHelpers.ProcessFormFile(pictureName, picture);
 
                 if (!processFormFileResult.IsSuccess) return processFormFileResult;
 

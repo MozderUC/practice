@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -50,7 +51,10 @@ namespace NetCoreMentoring.App.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult UpdatePicture(CategoryPictureViewModel categoryPictureViewModel)
         {
-            var result = _categoryService.UpdatePicture(categoryPictureViewModel.CategoryId, categoryPictureViewModel.FormFile);
+            var newPicture = new MemoryStream();
+            categoryPictureViewModel.FormFile.CopyTo(newPicture);
+
+            var result = _categoryService.UpdatePicture(categoryPictureViewModel.CategoryId, categoryPictureViewModel.FormFile.FileName, newPicture.ToArray());
 
             return RedirectToAction(result, nameof(Index));
         }
