@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -6,6 +7,7 @@ using NetCoreMentoring.App.Infrastructure;
 using NetCoreMentoring.App.Models;
 using NetCoreMentoring.Core.Models;
 using NetCoreMentoring.Core.Services.Contracts;
+using NuGet.Protocol.Core.v3;
 
 namespace NetCoreMentoring.App.Controllers
 {
@@ -31,45 +33,83 @@ namespace NetCoreMentoring.App.Controllers
 
         public IActionResult Index()
         {
-            var result = _productService.GetProducts();
+            try
+            {
+                var result = _productService.GetProducts();
 
-            return RequestResult<IEnumerable<Product>, IEnumerable<ProductViewModel>>(result, View().ViewName);
+                return RequestResult<IEnumerable<Product>, IEnumerable<ProductViewModel>>(result, View().ViewName);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Exception was occurred in {Method}.", nameof(Index));
+                return View("Error", e.ToJson());
+            }
         }
 
         public IActionResult Edit(int id)
         {
-            var result = _productService.GetProductWithCategories(id);
+            try
+            {
+                var result = _productService.GetProductWithCategories(id);
 
-            return RequestResult<ProductAndCategories, ProductAndCategoriesViewModel>(result, View().ViewName);
+                return RequestResult<ProductAndCategories, ProductAndCategoriesViewModel>(result, View().ViewName);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Exception was occurred in {Method}.", nameof(Edit));
+                return View("Error", e.ToJson());
+            }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, ProductAndCategoriesViewModel productAndCategoriesViewModel)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-            var result = _productService.Update(_mapper.Map<Product>(productAndCategoriesViewModel.Product));
+            try
+            {
+                if (!ModelState.IsValid) return BadRequest(ModelState);
+                var result = _productService.Update(_mapper.Map<Product>(productAndCategoriesViewModel.Product));
 
-            return RedirectToAction(result, nameof(Index));
-
+                return RedirectToAction(result, nameof(Index));
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Exception was occurred in {Method}.", nameof(Edit));
+                return View("Error", e.ToJson());
+            }
         }
 
         public IActionResult Create()
         {
-            var categories = _categoryService.GetCategories();
+            try
+            {
+                var categories = _categoryService.GetCategories();
 
-            return RequestResult<IEnumerable<Category>, ProductAndCategoriesViewModel>(categories, View().ViewName);
+                return RequestResult<IEnumerable<Category>, ProductAndCategoriesViewModel>(categories, View().ViewName);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Exception was occurred in {Method}.", nameof(Create));
+                return View("Error", e.ToJson());
+            }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(ProductAndCategoriesViewModel productAndCategoriesViewModel)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-            var result = _productService.Create(_mapper.Map<Product>(productAndCategoriesViewModel.Product));
+            try
+            {
+                if (!ModelState.IsValid) return BadRequest(ModelState);
+                var result = _productService.Create(_mapper.Map<Product>(productAndCategoriesViewModel.Product));
 
-            return RedirectToAction(result, nameof(Index));
-
+                return RedirectToAction(result, nameof(Index));
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Exception was occurred in {Method}.", nameof(Create));
+                return View("Error", e.ToJson());
+            }
         }
     }
 }

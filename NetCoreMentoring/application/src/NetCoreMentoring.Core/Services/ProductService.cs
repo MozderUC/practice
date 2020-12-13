@@ -36,103 +36,63 @@ namespace NetCoreMentoring.Core.Services
 
         public Result<IEnumerable<Product>> GetProducts()
         {
-            try
-            {
-                var maxProductsOnPage = int.Parse(_configuration["MaxProductsOnPage"]);
+            var maxProductsOnPage = int.Parse(_configuration["MaxProductsOnPage"]);
 
-                var result = _context.Products
-                    .Include(p => p.Category)
-                    .Include(p => p.Supplier)
-                    .AsEnumerable();
-                result = maxProductsOnPage == 0 ? result : result.Take(maxProductsOnPage);
-                
-                return Result.Success(_mapper.Map<IEnumerable<Product>>(result));
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Exception was occurred in {Method}.", nameof(GetProducts));
-                return Result.Failure<IEnumerable<Product>>(new Error($"Exception was occurred in {nameof(GetProducts)}.", e));
-            }
+            var result = _context.Products
+                .Include(p => p.Category)
+                .Include(p => p.Supplier)
+                .AsEnumerable();
+            result = maxProductsOnPage == 0 ? result : result.Take(maxProductsOnPage);
+
+            return Result.Success(_mapper.Map<IEnumerable<Product>>(result));
         }
 
         public Result<Product> GetProduct(int id)
         {
-            try
-            {
-                var result = _context.Products
+            var result = _context.Products
                     .Include(p => p.Category)
                     .Include(p => p.Supplier)
                     .FirstOrDefault(p => p.ProductId == id);
 
-                return Result.Success(_mapper.Map<Product>(result));
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Exception was occurred in {Method}.", nameof(GetProduct));
-                return Result.Failure<Product>(new Error($"Exception was occurred in {nameof(GetProducts)}.", e));
-            }
+            return Result.Success(_mapper.Map<Product>(result));
         }
 
         public Result<ProductAndCategories> GetProductWithCategories(int id)
         {
-            try
+            var product = GetProduct(id);
+            var categories = _categoryService.GetCategories();
+
+            if (!product.IsSuccess)
             {
-                var product = GetProduct(id);
-                var categories = _categoryService.GetCategories();
-
-                if (!product.IsSuccess)
-                {
-                    return Result.Failure<ProductAndCategories>(product.Error);
-                }
-
-                if (!categories.IsSuccess)
-                {
-                    return Result.Failure<ProductAndCategories>(categories.Error);
-                }
-
-                return Result.Success(new ProductAndCategories()
-                {
-                    Product = product.Value,
-                    Categories = categories.Value
-                });
+                return Result.Failure<ProductAndCategories>(product.Error);
             }
-            catch (Exception e)
+
+            if (!categories.IsSuccess)
             {
-                _logger.LogError(e, "Exception was occurred in {Method}.", nameof(GetProductWithCategories));
-                return Result.Failure<ProductAndCategories>(new Error($"Exception was occurred in {nameof(GetProductWithCategories)}.", e));
+                return Result.Failure<ProductAndCategories>(categories.Error);
             }
+
+            return Result.Success(new ProductAndCategories()
+            {
+                Product = product.Value,
+                Categories = categories.Value
+            });
         }
 
         public Result Update(Product product)
         {
-            try
-            {
-                var result = _context.Products.Update(_mapper.Map<Data.Models.ProductEntity>(product));
-                _context.SaveChanges();
+            var result = _context.Products.Update(_mapper.Map<Data.Models.ProductEntity>(product));
+            _context.SaveChanges();
 
-                return Result.Success();
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Exception was occurred in {Method}.", nameof(Update));
-                return Result.Failure(new Error($"Exception was occurred in {nameof(Update)}.", e));
-            }
+            return Result.Success();
         }
 
         public Result Create(Product product)
         {
-            try
-            {
-                var result = _context.Products.Add(_mapper.Map<Data.Models.ProductEntity>(product));
-                _context.SaveChanges();
+            var result = _context.Products.Add(_mapper.Map<Data.Models.ProductEntity>(product));
+            _context.SaveChanges();
 
-                return Result.Success(_mapper.Map<Product>(result.Entity));
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Exception was occurred in {Method}.", nameof(Create));
-                return Result.Failure<Product>(new Error($"Exception was occurred in {nameof(Create)}.", e));
-            }
+            return Result.Success(_mapper.Map<Product>(result.Entity));
         }
     }
 }

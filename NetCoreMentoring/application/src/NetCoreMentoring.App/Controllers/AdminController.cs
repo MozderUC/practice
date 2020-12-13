@@ -1,13 +1,13 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NetCoreMentoring.App.Areas.Identity;
 using NetCoreMentoring.App.Infrastructure;
-using NetCoreMentoring.Core.Services;
 using NetCoreMentoring.Core.Utilities.ResultFlow;
-using NetCoreMentoring.Data;
+using NuGet.Protocol.Core.v3;
 
 namespace NetCoreMentoring.App.Controllers
 {
@@ -29,7 +29,15 @@ namespace NetCoreMentoring.App.Controllers
 
         public IActionResult Index()
         {
-            return RequestResult(Result.Success(_context.Users.ToList()), View().ViewName);
+            try
+            {
+                return RequestResult(Result.Success(_context.Users.ToList()), View().ViewName);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Exception was occurred in {Method}.", nameof(Index));
+                return View("Error", e.ToJson());
+            }
         }
     }
 }
