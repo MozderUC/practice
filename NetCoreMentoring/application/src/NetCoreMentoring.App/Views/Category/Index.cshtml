@@ -1,0 +1,57 @@
+﻿@using NetCoreMentoring.App.Controllers
+@using NetCoreMentoring.App.Models
+@model IEnumerable<NetCoreMentoring.App.Models.CategoryViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Categories</h1>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CategoryId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CategoryName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayName("Picture")
+        </th>
+        <th>
+            @Html.DisplayName("Update Picture")
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var category in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => category.CategoryId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => category.CategoryName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => category.Description)
+            </td>
+            <td>
+                @Html.ActionLink("picture", nameof(CategoryController.GetPicture), new {categoryId = category.CategoryId, format = AcceptFormatTypes.Picture})
+            </td>
+            <td>
+                @Html.ActionLink("update picture", nameof(CategoryController.UpdatePicture), new {categoryId = category.CategoryId})
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+@section Footer {
+    You can't edit categories!
+}
