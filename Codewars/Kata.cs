@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 public class Kata
@@ -11,6 +13,8 @@ public class Kata
 
     // 5 kyi
     /// ValidParentheses https://www.codewars.com/kata/52774a314c2333f0a7000688
+    /// MoveZeroes https://www.codewars.com/kata/52597aa56021e91c93000cb0
+    /// GetReadableTime https://www.codewars.com/kata/52685f7382004e774f0001f7
 
     // 4 kyi
 
@@ -19,6 +23,36 @@ public class Kata
     // 2 kyi
 
     // 1 kyi
+
+    public static string GetReadableTime(int seconds)
+    {
+        return $"{seconds / 3600:d2}:" +
+               $"{seconds % 3600 / 60:d2}:" +
+               $"{seconds % 3600 % 60:d2}";
+    }
+
+    // O(n + zeroCount)
+    public static int[] MoveZeroes(int[] arr)
+    {
+        var zerosCount = 0;
+
+        for (var i = 0; i < arr.Length; i++)
+        {
+            if (arr[i] == 0)
+            {
+                zerosCount++;
+                continue;
+            }
+            arr[i - zerosCount] = arr[i];
+        }
+
+        for (var i = arr.Length - zerosCount; i < arr.Length; i++)
+        {
+            arr[i] = 0;
+        }
+
+        return arr;
+    }
 
     public static bool BinarySearch(IEnumerable<int> sortedSet, int valueToSearch)
     {
