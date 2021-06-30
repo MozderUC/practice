@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Globalization;
 using System.Linq;
 
@@ -15,6 +16,8 @@ public class Kata
     /// ValidParentheses https://www.codewars.com/kata/52774a314c2333f0a7000688
     /// MoveZeroes https://www.codewars.com/kata/52597aa56021e91c93000cb0
     /// GetReadableTime https://www.codewars.com/kata/52685f7382004e774f0001f7
+    /// WeightSort https://www.codewars.com/kata/55c6126177c9441a570000cc
+    /// Anagrams https://www.codewars.com/kata/523a86aa4230ebb5420001e1
 
     // 4 kyi
 
@@ -23,6 +26,24 @@ public class Kata
     // 2 kyi
 
     // 1 kyi
+
+    public static List<string> Anagrams(string word, List<string> words)
+    {
+        var alphabeticalOrderedWord = string.Join("", word.ToCharArray().OrderBy(x => x));
+        return words.Where(x => string.Join("", x.ToCharArray().OrderBy(c => c)) == alphabeticalOrderedWord).ToList();
+    }
+
+    public static string orderWeight(string s)
+    {
+        return string.Join(
+            " ",
+            s
+                .Split(" ")
+                .Select(x => new KeyValuePair<int, string>(x.Aggregate(0, (a, b) => a + b - '0'), x))
+                .OrderBy(x => x.Key)
+                .ThenBy(x => x.Value)
+                .Select(x => x.Value));
+    }
 
     public static string GetReadableTime(int seconds)
     {

@@ -1,8 +1,23 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.Generic;
+using System.Linq;
+using NUnit.Framework;
 
 [TestFixture]
 public class KataTest
 {
+    [TestCase("a", new [] {"a", "b", "c"}, new []{"a"})]
+    [TestCase("racer", new [] {"carer", "arcre", "carre", "racrs", "racers", "arceer", "raccer", "carrer", "cerarr"}, new []{"carer", "arcre", "carre"})]
+    public void Anagrams_FindAnagramsFromList_ListOfAnagrams(string word, IEnumerable<string> listOfAnagramsCandidate, IEnumerable<string> listOfAnagrams)
+    {
+        Assert.That(Kata.Anagrams(word, listOfAnagramsCandidate.ToList()), Is.EquivalentTo(listOfAnagrams));
+    }
+
+    [TestCase("103 123 4444 99 2000", "2000 103 123 4444 99")]
+    [TestCase("2000 10003 1234000 44444444 9999 11 11 22 123", "11 11 2000 10003 22 123 1234000 44444444 9999")]
+    public void WeightSort_SortArrayElementsByTheSumOfTheirDigits_SortedArray(string input, string result) {
+        Assert.That(Kata.orderWeight(input), Is.EqualTo(result));
+    }
+
     [TestCase(0, "00:00:00")]
     [TestCase(5, "00:00:05")]
     [TestCase(60, "00:01:00")]
