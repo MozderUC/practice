@@ -5,6 +5,53 @@ using NUnit.Framework;
 [TestFixture]
 public class KataTest
 {
+    [TestCase(10, 22)]
+    [TestCase(20, 57)]
+    [TestCase(30, 91)]
+    [TestCase(50, 175)]
+    public static void DblLinear_ApplyTwiceLinearFunction_ResultElement(int input, int result)
+    {
+        Assert.That(Kata.DblLinear(input), Is.EqualTo(result));
+    }
+
+    [Test]
+    public void FormatDuration_FormatSecondsToReadableString_FormattedString() {
+        Assert.AreEqual("now",Kata.formatDuration(0));
+        Assert.AreEqual("1 second",Kata.formatDuration(1));
+        Assert.AreEqual("1 minute and 2 seconds",Kata.formatDuration(62));
+        Assert.AreEqual("2 minutes",Kata.formatDuration(120));
+        Assert.AreEqual("1 hour, 1 minute and 2 seconds",Kata.formatDuration(3662));
+        Assert.AreEqual("182 days, 1 hour, 44 minutes and 40 seconds",Kata.formatDuration(15731080));
+        Assert.AreEqual("4 years, 68 days, 3 hours and 4 minutes",Kata.formatDuration(132030240));
+        Assert.AreEqual("6 years, 192 days, 13 hours, 3 minutes and 54 seconds",Kata.formatDuration(205851834));
+        Assert.AreEqual("8 years, 12 days, 13 hours, 41 minutes and 1 second",Kata.formatDuration(253374061));
+        Assert.AreEqual("7 years, 246 days, 15 hours, 32 minutes and 54 seconds",Kata.formatDuration(242062374));
+        Assert.AreEqual("3 years, 85 days, 1 hour, 9 minutes and 26 seconds",Kata.formatDuration(101956166));
+        Assert.AreEqual("1 year, 19 days, 18 hours, 19 minutes and 46 seconds",Kata.formatDuration(33243586));
+    }
+
+    [Test]
+    public void Snail_SortArrayAsSnail_SortedArray()
+    {
+        int[][] inputArray =
+        {
+            new []{1,  2,  3,  4,  5,  6},
+            new []{20, 21, 22, 23, 24, 7},
+            new []{19, 32, 33, 34, 25, 8},
+            new []{18, 31, 36, 35, 26, 9},
+            new []{17, 30, 29, 28, 27, 10},
+            new []{16, 15, 14, 13, 12, 11},
+        };
+
+        int[] result =
+        {
+            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
+            30, 31, 32, 33, 34, 35, 36
+        };
+
+        Assert.That(Kata.Snail(inputArray), Is.EqualTo(result));
+    }
+
     [TestCase("a", new [] {"a", "b", "c"}, new []{"a"})]
     [TestCase("racer", new [] {"carer", "arcre", "carre", "racrs", "racers", "arceer", "raccer", "carrer", "cerarr"}, new []{"carer", "arcre", "carre"})]
     public void Anagrams_FindAnagramsFromList_ListOfAnagrams(string word, IEnumerable<string> listOfAnagramsCandidate, IEnumerable<string> listOfAnagrams)
