@@ -1,10 +1,85 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 
 [TestFixture]
 public class KataTest
 {
+    private static object[] validateBattleshipGameFieldTestCases = {
+        new object[]
+        {
+            true,
+            new[,]
+            {{1, 0, 0, 0, 0, 1, 1, 0, 0, 0},
+            {1, 0, 1, 0, 0, 0, 0, 0, 1, 0},
+            {1, 0, 1, 0, 1, 1, 1, 0, 1, 0},
+            {1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 1, 0},
+            {0, 0, 0, 0, 1, 1, 1, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 1, 0},
+            {0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 1, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}
+        },
+        new object[]
+        {
+            false,
+            new[,]
+            {{1, 0, 0, 0, 0, 1, 1, 0, 0, 0},
+            {1, 0, 1, 0, 0, 0, 0, 0, 1, 0},
+            {1, 0, 1, 0, 1, 1, 1, 0, 1, 0},
+            {1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 1, 0},
+            {0, 1, 0, 0, 1, 1, 1, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 1, 0},
+            {0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 1, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}
+        },
+    };
+
+    [TestCaseSource(nameof(validateBattleshipGameFieldTestCases))]
+    public void ValidateBattlefield_ValidateBattleshipGameField_IsValid(bool expected, int[,] board) => Assert.That(Kata.ValidateBattlefield(board), Is.EqualTo(expected));
+
+    private static object[] validateSudokuBoardTestCases = {
+        new object[]
+        {
+            true,
+            new[]
+            {
+                new[] {5, 3, 4, 6, 7, 8, 9, 1, 2},
+                new[] {6, 7, 2, 1, 9, 5, 3, 4, 8},
+                new[] {1, 9, 8, 3, 4, 2, 5, 6, 7},
+                new[] {8, 5, 9, 7, 6, 1, 4, 2, 3},
+                new[] {4, 2, 6, 8, 5, 3, 7, 9, 1},
+                new[] {7, 1, 3, 9, 2, 4, 8, 5, 6},
+                new[] {9, 6, 1, 5, 3, 7, 2, 8, 4},
+                new[] {2, 8, 7, 4, 1, 9, 6, 3, 5},
+                new[] {3, 4, 5, 2, 8, 6, 1, 7, 9},
+            }
+        },
+        new object[]
+        {
+            false,
+            new[]
+            {
+                new[] {5, 3, 4, 6, 7, 8, 9, 1, 2},
+                new[] {6, 7, 2, 1, 9, 5, 3, 4, 8},
+                new[] {1, 9, 8, 3, 0, 2, 5, 6, 7},
+                new[] {8, 5, 0, 7, 6, 1, 4, 2, 3},
+                new[] {4, 2, 6, 8, 5, 3, 7, 9, 1},
+                new[] {7, 0, 3, 9, 2, 4, 8, 5, 6},
+                new[] {9, 6, 1, 5, 3, 7, 2, 8, 4},
+                new[] {2, 8, 7, 4, 1, 9, 6, 3, 5},
+                new[] {3, 0, 0, 2, 8, 6, 1, 7, 9},
+            },
+        },
+    };
+
+    [TestCaseSource(nameof(validateSudokuBoardTestCases))]
+    public void ValidateSolution_ValidateSudokuBoard_IsValid(bool expected, int[][] board) => Assert.That(Kata.ValidateSolution(board), Is.EqualTo(expected));
+
     [TestCase(10, 22)]
     [TestCase(20, 57)]
     [TestCase(30, 91)]
