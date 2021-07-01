@@ -6,6 +6,38 @@ using NUnit.Framework;
 [TestFixture]
 public class KataTest
 {
+    [Test]
+    public void PathFinder_FindIfThereAreExit_IsExitExist()
+    {
+
+        string a = ".W.\n" +
+                   ".W.\n" +
+                   "...",
+
+            b = ".W.\n" +
+                ".W.\n" +
+                "W..",
+
+            c = "......\n" +
+                "......\n" +
+                "......\n" +
+                "......\n" +
+                "......\n" +
+                "......",
+
+            d = "......\n" +
+                "......\n" +
+                "......\n" +
+                "......\n" +
+                ".....W\n" +
+                "....W.";
+
+        Assert.AreEqual(true, Kata.PathFinder(a));
+        Assert.AreEqual(false, Kata.PathFinder(b));
+        Assert.AreEqual(true, Kata.PathFinder(c));
+        Assert.AreEqual(false, Kata.PathFinder(d));
+    }
+
     private static object[] validateBattleshipGameFieldTestCases = {
         new object[]
         {

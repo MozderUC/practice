@@ -27,7 +27,8 @@ public static class Kata
     // Snail https://www.codewars.com/kata/521c2db8ddc89b9b7a0000c1
     // formatDuration https://www.codewars.com/kata/52742f58faf5485cae000b9a
     // DblLinear https://www.codewars.com/kata/5672682212c8ecf83e000050/train/csharp
-    // ValidateSolution (Sudoku board validator) https://www.codewars.com/kata/529bf0e9bdf7657179000008/solutions/csharp
+    // ValidateSolution (Sudoku board validator) https://www.codewars.com/kata/529bf0e9bdf7657179000008
+    // PathFinder https://www.codewars.com/kata/5765870e190b1472ec0022a2
 
     // 3 kyi
     // ValidateBattlefield https://www.codewars.com/kata/52bb6539a4cf1b12d90005b7
@@ -35,6 +36,121 @@ public static class Kata
     // 2 kyi
 
     // 1 kyi
+
+    private static List<int>[] adjacencyList;
+    private static bool[] used;
+    private static bool exitFound;
+    private static int N;
+
+    public static bool PathFinder(string maze)
+    {
+        if (maze.Length == 1) return true;
+
+        N = maze.IndexOf("\n");
+
+        var m = maze.Replace("\n", "");
+
+        adjacencyList = new List<int>[N * N];
+        used = new bool[N * N];
+        exitFound = false;
+
+        // fill adjacencyList
+        for (var i = 0; i < m.Length; i++)
+        {
+            adjacencyList[i] = new List<int>();
+
+            if (m[i] == 'W') continue;
+
+            adjacencyList[i].AddRange(GetAdjacentVertexes(i, m, N));
+        }
+
+        DFS(0);
+
+        return used[N*N-1];
+    }
+
+    private static void DFS(int v)
+    {
+        used[v] = true;
+
+        // DFS optimization: where find exit stop executing DFS
+        if (v == N * N - 1)
+        {
+            exitFound = true;
+        }
+
+        foreach (var u in adjacencyList[v].Where(u => !used[u]))
+        {
+            DFS(u);
+
+            if (exitFound)
+            {
+                return;
+            }
+        }
+    }
+
+    private static IEnumerable<int> GetAdjacentVertexes(int i, string maze, int N)
+    {
+        var result = new List<int>();
+        var g = i % N;
+        if (g == 0 || i == 0)
+        {
+            if (maze[i + 1] != 'W')
+            {
+                result.Add(i + 1);
+            }
+        }
+        else if (g == N - 1 || i == N - 1)
+        {
+            if (maze[i - 1] != 'W')
+            {
+                result.Add(i - 1);
+            }
+        }
+        else
+        {
+            if (maze[i + 1] != 'W')
+            {
+                result.Add(i + 1);
+            }
+
+            if (maze[i - 1] != 'W')
+            {
+                result.Add(i - 1);
+            }
+        }
+
+
+        if (i < N)
+        {
+            if (maze[i + N] != 'W')
+            {
+                result.Add(i + N);
+            }
+        }
+        else if (i > N * N - 1 - N)
+        {
+            if (maze[i - N] != 'W')
+            {
+                result.Add(i - N);
+            }
+        }
+        else
+        {
+            if (maze[i + N] != 'W')
+            {
+                result.Add(i + N);
+            }
+
+            if (maze[i - N] != 'W')
+            {
+                result.Add(i - N);
+            }
+        }
+
+        return result;
+    }
 
     public static bool ValidateBattlefield(int[,] field)
     {
