@@ -1,11 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 
 [TestFixture]
 public class KataTest
 {
+    [TestCase("a", new [] { "a" })]
+    [TestCase("ab", new [] { "ab", "ba" })]
+    [TestCase("aabb", new [] { "aabb", "abab", "abba", "baab", "baba", "bbaa" })]
+    public void SinglePermutations_GenerateListOfPermutationsOfString_ListOfPermutationsWithoutDuplicates(string input, IEnumerable<string> result)
+    {
+        Assert.AreEqual(result, Kata.StringPermutations.SinglePermutations(input).OrderBy(x => x).ToList());
+    }
+
     [Test]
     public void PathFinder_FindIfThereAreExit_IsExitExist()
     {
@@ -32,10 +39,10 @@ public class KataTest
                 ".....W\n" +
                 "....W.";
 
-        Assert.AreEqual(true, Kata.PathFinder(a));
-        Assert.AreEqual(false, Kata.PathFinder(b));
-        Assert.AreEqual(true, Kata.PathFinder(c));
-        Assert.AreEqual(false, Kata.PathFinder(d));
+        Assert.AreEqual(true, Kata.Finder.PathFinder(a));
+        Assert.AreEqual(false, Kata.Finder.PathFinder(b));
+        Assert.AreEqual(true, Kata.Finder.PathFinder(c));
+        Assert.AreEqual(false, Kata.Finder.PathFinder(d));
     }
 
     private static object[] validateBattleshipGameFieldTestCases = {

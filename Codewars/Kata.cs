@@ -29,6 +29,7 @@ public static class Kata
     // DblLinear https://www.codewars.com/kata/5672682212c8ecf83e000050/train/csharp
     // ValidateSolution (Sudoku board validator) https://www.codewars.com/kata/529bf0e9bdf7657179000008
     // PathFinder https://www.codewars.com/kata/5765870e190b1472ec0022a2
+    // SinglePermutations (GenerateListOfPermutationsOfString) https://www.codewars.com/kata/5254ca2719453dcc0b00027d
 
     // 3 kyi
     // ValidateBattlefield https://www.codewars.com/kata/52bb6539a4cf1b12d90005b7
@@ -37,119 +38,168 @@ public static class Kata
 
     // 1 kyi
 
-    private static List<int>[] adjacencyList;
-    private static bool[] used;
-    private static bool exitFound;
-    private static int N;
-
-    public static bool PathFinder(string maze)
+    public static class StringPermutations
     {
-        if (maze.Length == 1) return true;
+        private static bool[] used;
+        private static char[] source;
+        private static Stack<char> v;
+        private static SortedSet<string> result;
 
-        N = maze.IndexOf("\n");
-
-        var m = maze.Replace("\n", "");
-
-        adjacencyList = new List<int>[N * N];
-        used = new bool[N * N];
-        exitFound = false;
-
-        // fill adjacencyList
-        for (var i = 0; i < m.Length; i++)
+        public static IEnumerable<string> SinglePermutations(string s)
         {
-            adjacencyList[i] = new List<int>();
+            source = s.ToCharArray();
+            used = new bool[source.Length];
+            result = new SortedSet<string>();
+            v = new Stack<char>();
 
-            if (m[i] == 'W') continue;
+            CalcPermutations(0);
 
-            adjacencyList[i].AddRange(GetAdjacentVertexes(i, m, N));
+            return result.ToList();
         }
 
-        DFS(0);
-
-        return used[N*N-1];
-    }
-
-    private static void DFS(int v)
-    {
-        used[v] = true;
-
-        // DFS optimization: where find exit stop executing DFS
-        if (v == N * N - 1)
+        private static void CalcPermutations(int k)
         {
-            exitFound = true;
-        }
-
-        foreach (var u in adjacencyList[v].Where(u => !used[u]))
-        {
-            DFS(u);
-
-            if (exitFound)
+            if (k == source.Length)
             {
+                var permutation = new char[source.Length];
+                v.CopyTo(permutation, 0);
+
+                // cause result is SortedSet -> Contains use BinarySearch O(log(n))
+                if (!result.Contains(new string(permutation)))
+                    result.Add(new string(permutation));
+
                 return;
             }
+
+            for (var i = 0; i < source.Length; i++)
+            {
+                if (used[i]) continue;
+
+                used[i] = true;
+                v.Push(source[i]);
+                CalcPermutations(k+1);
+                v.Pop();
+                used[i] = false;
+            }
         }
     }
 
-    private static IEnumerable<int> GetAdjacentVertexes(int i, string maze, int N)
+    public static class Finder
     {
-        var result = new List<int>();
-        var g = i % N;
-        if (g == 0 || i == 0)
+        private static List<int>[] adjacencyList;
+        private static bool[] used;
+        private static bool exitFound;
+        private static int N;
+
+        public static bool PathFinder(string maze)
         {
-            if (maze[i + 1] != 'W')
+            if (maze.Length == 1) return true;
+
+            N = maze.IndexOf("\n");
+
+            var m = maze.Replace("\n", "");
+
+            adjacencyList = new List<int>[N * N];
+            used = new bool[N * N];
+            exitFound = false;
+
+            // fill adjacencyList
+            for (var i = 0; i < m.Length; i++)
             {
-                result.Add(i + 1);
-            }
-        }
-        else if (g == N - 1 || i == N - 1)
-        {
-            if (maze[i - 1] != 'W')
-            {
-                result.Add(i - 1);
-            }
-        }
-        else
-        {
-            if (maze[i + 1] != 'W')
-            {
-                result.Add(i + 1);
+                adjacencyList[i] = new List<int>();
+
+                if (m[i] == 'W') continue;
+
+                adjacencyList[i].AddRange(GetAdjacentVertexes(i, m, N));
             }
 
-            if (maze[i - 1] != 'W')
-            {
-                result.Add(i - 1);
-            }
+            DFS(0);
+
+            return used[N*N-1];
         }
 
+        private static void DFS(int v)
+        {
+            used[v] = true;
 
-        if (i < N)
-        {
-            if (maze[i + N] != 'W')
+            // DFS optimization: where find exit stop executing DFS
+            if (v == N * N - 1)
             {
-                result.Add(i + N);
-            }
-        }
-        else if (i > N * N - 1 - N)
-        {
-            if (maze[i - N] != 'W')
-            {
-                result.Add(i - N);
-            }
-        }
-        else
-        {
-            if (maze[i + N] != 'W')
-            {
-                result.Add(i + N);
+                exitFound = true;
             }
 
-            if (maze[i - N] != 'W')
+            foreach (var u in adjacencyList[v].Where(u => !used[u]))
             {
-                result.Add(i - N);
+                DFS(u);
+
+                if (exitFound)
+                {
+                    return;
+                }
             }
         }
 
-        return result;
+        private static IEnumerable<int> GetAdjacentVertexes(int i, string maze, int N)
+        {
+            var result = new List<int>();
+            var g = i % N;
+            if (g == 0 || i == 0)
+            {
+                if (maze[i + 1] != 'W')
+                {
+                    result.Add(i + 1);
+                }
+            }
+            else if (g == N - 1 || i == N - 1)
+            {
+                if (maze[i - 1] != 'W')
+                {
+                    result.Add(i - 1);
+                }
+            }
+            else
+            {
+                if (maze[i + 1] != 'W')
+                {
+                    result.Add(i + 1);
+                }
+
+                if (maze[i - 1] != 'W')
+                {
+                    result.Add(i - 1);
+                }
+            }
+
+
+            if (i < N)
+            {
+                if (maze[i + N] != 'W')
+                {
+                    result.Add(i + N);
+                }
+            }
+            else if (i > N * N - 1 - N)
+            {
+                if (maze[i - N] != 'W')
+                {
+                    result.Add(i - N);
+                }
+            }
+            else
+            {
+                if (maze[i + N] != 'W')
+                {
+                    result.Add(i + N);
+                }
+
+                if (maze[i - N] != 'W')
+                {
+                    result.Add(i - N);
+                }
+            }
+
+            return result;
+        }
     }
 
     public static bool ValidateBattlefield(int[,] field)
