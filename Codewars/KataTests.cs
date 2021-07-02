@@ -5,9 +5,17 @@ using NUnit.Framework;
 [TestFixture]
 public class KataTest
 {
+
+    [Test]
+    public void productFib_FindProductOfTwoFidNumberThatEqualToInput_FirstMultiplierSecondMultiplierResult() {
+        var r = new ulong[] { 55, 89, 1 };
+        Assert.That(Kata.productFib(4895), Is.EquivalentTo(r));
+    }
+
     [TestCase("a", new [] { "a" })]
     [TestCase("ab", new [] { "ab", "ba" })]
     [TestCase("aabb", new [] { "aabb", "abab", "abba", "baab", "baba", "bbaa" })]
+    [TestCase("123", new [] { "123","132","213","231","312","321"})]
     public void SinglePermutations_GenerateListOfPermutationsOfString_ListOfPermutationsWithoutDuplicates(string input, IEnumerable<string> result)
     {
         Assert.AreEqual(result, Kata.StringPermutations.SinglePermutations(input).OrderBy(x => x).ToList());

@@ -30,6 +30,7 @@ public static class Kata
     // ValidateSolution (Sudoku board validator) https://www.codewars.com/kata/529bf0e9bdf7657179000008
     // PathFinder https://www.codewars.com/kata/5765870e190b1472ec0022a2
     // SinglePermutations (GenerateListOfPermutationsOfString) https://www.codewars.com/kata/5254ca2719453dcc0b00027d
+    // productFib https://www.codewars.com/kata/5541f58a944b85ce6d00006a
 
     // 3 kyi
     // ValidateBattlefield https://www.codewars.com/kata/52bb6539a4cf1b12d90005b7
@@ -37,6 +38,30 @@ public static class Kata
     // 2 kyi
 
     // 1 kyi
+
+
+    public static ulong[] productFib(ulong prod)
+    {
+        var n = (ulong)1;
+        var n1 = (ulong)1;
+        var t = (ulong)0;
+
+        while (true)
+        {
+            if (n * n1 == prod)
+            {
+                return new[] {n, n1, (ulong) 1};
+            }
+            if (n * n1 > prod)
+            {
+                return new[] {n, n1, (ulong) 0};
+            }
+
+            t = n1;
+            n1 = n + n1;
+            n = t;
+        }
+    }
 
     public static class StringPermutations
     {
