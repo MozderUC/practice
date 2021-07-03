@@ -18,6 +18,7 @@ public static class Kata
     // WeightSort https://www.codewars.com/kata/55c6126177c9441a570000cc
     // Anagrams https://www.codewars.com/kata/523a86aa4230ebb5420001e1
     // MaxSequence https://www.codewars.com/kata/54521e9ec8e60bc4de000d6c
+    // chooseBestSum https://www.codewars.com/kata/55e7280b40e1c4a06d0000aa
 
     // 4 kyi
     // Snail https://www.codewars.com/kata/521c2db8ddc89b9b7a0000c1
@@ -28,6 +29,7 @@ public static class Kata
     // SinglePermutations (GenerateListOfPermutationsOfString) https://www.codewars.com/kata/5254ca2719453dcc0b00027d
     // productFib https://www.codewars.com/kata/5541f58a944b85ce6d00006a
     // Rot13 https://www.codewars.com/kata/530e15517bc88ac656000716
+    // Extract https://www.codewars.com/kata/51ba717bb08c1cd60f00002f
 
     // 3 kyi
     // ValidateBattlefield https://www.codewars.com/kata/52bb6539a4cf1b12d90005b7
@@ -36,6 +38,53 @@ public static class Kata
 
     // 1 kyi
 
+
+    public static string Extract(int[] args)
+    {
+        var result = new StringBuilder();
+        var increasingSequence = new List<int>();
+
+        for (var i = 0; i < args.Length; i++)
+        {
+            if (i + 1 < args.Length && args[i + 1] - args[i] == 1)
+            {
+                increasingSequence.Add(args[i]);
+                continue;
+            }
+
+            if (increasingSequence.Any())
+            {
+                if (increasingSequence.Count == 1)
+                {
+                    result.Append(increasingSequence[0]+",");
+                    result.Append(args[i]+",");
+                }
+                else
+                {
+                    result.Append($"{increasingSequence.First()}-{args[i]},");
+                }
+
+                increasingSequence.Clear();
+                continue;
+            }
+
+            result.Append(args[i] + ",");
+        }
+
+        // remove comma at the end (move the pointer (i.e. last index) back one character)
+        result.Length--;
+
+        return result.ToString();
+    }
+
+    public static int? chooseBestSum(int t, int k, List<int> ls)
+    {
+        // TODO add code
+        // comb = find lit of combination from n(ls) by k
+        // return comb.Max()
+
+        return 0;
+    }
 
     public static int MaxSequence(int[] arr)
     {

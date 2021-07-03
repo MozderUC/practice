@@ -5,6 +5,22 @@ using NUnit.Framework;
 [TestFixture]
 public class KataTest
 {
+    [TestCase(new[] { 1, 2 }, "1,2")]
+    [TestCase(new[] { -6, -3, -2, -1, 0, 1, 3, 4, 5, 7, 8, 9, 10, 11, 14, 15, 17, 18, 19, 20 }, "-6,-3-1,3-5,7-11,14,15,17-20")]
+    [TestCase(new[] { -3, -2, -1, 2, 10, 15, 16, 18, 19, 20 }, "-3--1,2,10,15,16,18-20")]
+    public void Extract (int[] input, string result)
+    {
+        Assert.That(Kata.Extract(input), Is.EqualTo(result));
+    }
+
+    [TestCase(163, 3, new[] { 50, 55, 56, 57, 58 }, 163)]
+    [TestCase(163, 3, new[] { 50}, null)]
+    [TestCase(230, 3, new[] { 91, 74, 73, 85, 73, 81, 87}, 228)]
+    public void chooseBestSum_FindCombinationFromListByKAndSelectOneWithTheMaxSum_MaxSum (int t, int k, IEnumerable<int> list, int? result)
+    {
+        Assert.That(Kata.chooseBestSum(t,k,list.ToList()), Is.EqualTo(result));
+    }
+
     [TestCase(new[]{-2, 1, -3, 4, -1, 2, 1, -5, 4}, 6)]
     [TestCase(new[]{0}, 0)]
     public void MaxSequence_FindMaximumSumOfContiguousSubsequenceInArray_SubsequenceOfArray (int[] input, int result)
