@@ -5,6 +5,19 @@ using NUnit.Framework;
 [TestFixture]
 public class KataTest
 {
+    [TestCase(new[]{-2, 1, -3, 4, -1, 2, 1, -5, 4}, 6)]
+    [TestCase(new[]{0}, 0)]
+    public void MaxSequence_FindMaximumSumOfContiguousSubsequenceInArray_SubsequenceOfArray (int[] input, int result)
+    {
+        Assert.That(Kata.MaxSequence(input), Is.EqualTo(result));
+    }
+
+    [TestCase("test", "grfg")]
+    [TestCase("Test", "Grfg")]
+    public void Rot13_SubstituteLetterWithTheLetter13LettersAfterIt_CipherString (string input, string result)
+    {
+        Assert.That(Kata.Rot13(input), Is.EqualTo(result));
+    }
 
     [Test]
     public void productFib_FindProductOfTwoFidNumberThatEqualToInput_FirstMultiplierSecondMultiplierResult() {

@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Globalization;
 using System.Linq;
-using System.Reflection;
-using System.Reflection.Emit;
 using System.Text;
-using System.Text.RegularExpressions;
 
 public static class Kata
 {
@@ -22,6 +17,7 @@ public static class Kata
     // GetReadableTime https://www.codewars.com/kata/52685f7382004e774f0001f7
     // WeightSort https://www.codewars.com/kata/55c6126177c9441a570000cc
     // Anagrams https://www.codewars.com/kata/523a86aa4230ebb5420001e1
+    // MaxSequence https://www.codewars.com/kata/54521e9ec8e60bc4de000d6c
 
     // 4 kyi
     // Snail https://www.codewars.com/kata/521c2db8ddc89b9b7a0000c1
@@ -31,6 +27,7 @@ public static class Kata
     // PathFinder https://www.codewars.com/kata/5765870e190b1472ec0022a2
     // SinglePermutations (GenerateListOfPermutationsOfString) https://www.codewars.com/kata/5254ca2719453dcc0b00027d
     // productFib https://www.codewars.com/kata/5541f58a944b85ce6d00006a
+    // Rot13 https://www.codewars.com/kata/530e15517bc88ac656000716
 
     // 3 kyi
     // ValidateBattlefield https://www.codewars.com/kata/52bb6539a4cf1b12d90005b7
@@ -39,6 +36,60 @@ public static class Kata
 
     // 1 kyi
 
+
+    public static int MaxSequence(int[] arr)
+    {
+        var result = 0;
+        var temp = 0;
+
+        for (var i = 0; i < arr.Length; i++)
+        {
+            for (var j = i; j < arr.Length; j++)
+            {
+                temp += arr[j];
+                if (temp > result)
+                {
+                    result = temp;
+                }
+            }
+
+            temp = 0;
+        }
+
+        return result;
+    }
+
+    public static string Rot13(string message)
+    {
+        var result = new StringBuilder();
+
+        foreach (var c in message)
+        {
+            if (char.IsUpper(c))
+            {
+                // upper letters range 65 - 90
+                result.Append(
+                    c + 13 > 90
+                        ? (char) (64 + (c + 13) % 90)
+                        : (char) (c + 13));
+                continue;
+            }
+
+            if (char.IsLower(c))
+            {
+                // upper letters range 97 - 122
+                result.Append(
+                    c + 13 > 122
+                        ? (char)(96 + (c + 13) % 122)
+                        : (char)(c + 13));
+                continue;
+            }
+
+            result.Append(c);
+        }
+
+        return result.ToString();
+    }
 
     public static ulong[] productFib(ulong prod)
     {
