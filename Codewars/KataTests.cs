@@ -18,7 +18,7 @@ public class KataTest
     [TestCase(230, 3, new[] { 91, 74, 73, 85, 73, 81, 87}, 228)]
     public void chooseBestSum_FindCombinationFromListByKAndSelectOneWithTheMaxSum_MaxSum (int t, int k, IEnumerable<int> list, int? result)
     {
-        Assert.That(Kata.chooseBestSum(t,k,list.ToList()), Is.EqualTo(result));
+        Assert.That(Kata.Combinations.chooseBestSum(t,k,list.ToList()), Is.EqualTo(result));
     }
 
     [TestCase(new[]{-2, 1, -3, 4, -1, 2, 1, -5, 4}, 6)]

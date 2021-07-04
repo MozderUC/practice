@@ -18,7 +18,7 @@ public static class Kata
     // WeightSort https://www.codewars.com/kata/55c6126177c9441a570000cc
     // Anagrams https://www.codewars.com/kata/523a86aa4230ebb5420001e1
     // MaxSequence https://www.codewars.com/kata/54521e9ec8e60bc4de000d6c
-    // chooseBestSum https://www.codewars.com/kata/55e7280b40e1c4a06d0000aa
+    // chooseBestSum (generate combinations) https://www.codewars.com/kata/55e7280b40e1c4a06d0000aa
 
     // 4 kyi
     // Snail https://www.codewars.com/kata/521c2db8ddc89b9b7a0000c1
@@ -26,7 +26,7 @@ public static class Kata
     // DblLinear https://www.codewars.com/kata/5672682212c8ecf83e000050/train/csharp
     // ValidateSolution (Sudoku board validator) https://www.codewars.com/kata/529bf0e9bdf7657179000008
     // PathFinder https://www.codewars.com/kata/5765870e190b1472ec0022a2
-    // SinglePermutations (GenerateListOfPermutationsOfString) https://www.codewars.com/kata/5254ca2719453dcc0b00027d
+    // SinglePermutations (generate permutations) https://www.codewars.com/kata/5254ca2719453dcc0b00027d
     // productFib https://www.codewars.com/kata/5541f58a944b85ce6d00006a
     // Rot13 https://www.codewars.com/kata/530e15517bc88ac656000716
     // Extract https://www.codewars.com/kata/51ba717bb08c1cd60f00002f
@@ -77,13 +77,36 @@ public static class Kata
         return result.ToString();
     }
 
-    public static int? chooseBestSum(int t, int k, List<int> ls)
+    public static class Combinations
     {
-        // TODO add code
-        // comb = find lit of combination from n(ls) by k
-        // return comb.Max()
+        private static List<int> list;
+        private static Stack<int> combination;
+        private static List<int[]> combinations;
 
-        return 0;
+        public static int? chooseBestSum(int t, int k, List<int> ls)
+        {
+            list = ls;
+            combination = new Stack<int>();
+            combinations = new List<int[]>();
+
+            Comb(0,k);
+
+            return combinations.Select(x => (int?)x.Sum()).OrderBy(x => x).LastOrDefault(x => x <= t);
+        }
+
+        // Explaining how to generate combination in c++: https://stackoverflow.com/questions/12991758/creating-all-possible-k-combinations-of-n-items-in-c
+        private static void Comb(int offset, int k)
+        {
+            if (k == 0) {
+                combinations.Add(combination.ToArray());
+                return;
+            }
+            for (var i = offset; i <= list.Count - k; ++i) {
+                combination.Push(list[i]);
+                Comb(i+1, k-1);
+                combination.Pop();
+            }
+        }
     }
 
     public static int MaxSequence(int[] arr)
