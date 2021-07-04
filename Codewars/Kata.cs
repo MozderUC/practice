@@ -30,6 +30,8 @@ public static class Kata
     // productFib https://www.codewars.com/kata/5541f58a944b85ce6d00006a
     // Rot13 https://www.codewars.com/kata/530e15517bc88ac656000716
     // Extract https://www.codewars.com/kata/51ba717bb08c1cd60f00002f
+    // NextBiggerNumber https://www.codewars.com/kata/55983863da40caa2c900004e
+    // NextSmaller https://www.codewars.com/kata/5659c6d896bc135c4c00021e
 
     // 3 kyi
     // ValidateBattlefield https://www.codewars.com/kata/52bb6539a4cf1b12d90005b7
@@ -38,6 +40,61 @@ public static class Kata
 
     // 1 kyi
 
+
+    public static long NextSmaller(long n)
+    {
+        if (n < 10)
+            return -1;
+
+        var arr = n.ToString().Select(x => (int?)(x - '0')).ToArray();
+
+        for (var i = arr.Length - 2; i >= 0; i--)
+        {
+            var r = arr.Skip(i+1).ToList();
+            var index = r.IndexOf(r.Where(s => s < arr[i]).DefaultIfEmpty().Max());
+
+            if (index == -1) continue;
+
+            var t = arr[i];
+            arr[i] = r[index];
+
+            r.RemoveAt(index);
+            r.Add(t);
+
+            if (arr[0] == 0)
+                return -1;
+
+            return long.Parse(string.Join("", arr.Take(i+1).Concat(r.OrderByDescending(x => x))));
+        }
+
+        return -1;
+    }
+
+    public static long NextBiggerNumber(long n)
+    {
+        if (n < 10)
+            return -1;
+
+        var arr = n.ToString().Select(x => (int?)(x - '0')).ToArray();
+
+        for (var i = arr.Length - 2; i >= 0; i--)
+        {
+            var r = arr.Skip(i+1).ToList();
+            var index = r.IndexOf(r.Where(s => s > arr[i]).DefaultIfEmpty().Min());
+
+            if (index == -1) continue;
+
+            var t = arr[i];
+            arr[i] = r[index];
+
+            r.RemoveAt(index);
+            r.Add(t);
+
+            return long.Parse(string.Join("",arr.Take(i+1).Concat(r.OrderBy(x => x))));
+        }
+
+        return -1;
+    }
 
     public static string Extract(int[] args)
     {

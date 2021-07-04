@@ -5,6 +5,28 @@ using NUnit.Framework;
 [TestFixture]
 public class KataTest
 {
+    [TestCase(21, ExpectedResult = 12)]
+    [TestCase(907, ExpectedResult = 790)]
+    [TestCase(531, ExpectedResult = 513)]
+    [TestCase(1027, ExpectedResult = -1)]
+    [TestCase(441, ExpectedResult = 414)]
+    [TestCase(123456798, ExpectedResult = 123456789)]
+    public long NextSmaller_FindNextSmallerNumber_NextSmallerNumber(long n)
+    {
+        return Kata.NextSmaller(n);
+    }
+
+
+    [TestCase(12, ExpectedResult = 21)]
+    [TestCase(513, ExpectedResult = 531)]
+    [TestCase(2017, ExpectedResult = 2071)]
+    [TestCase(414, ExpectedResult = 441)]
+    [TestCase(144, ExpectedResult = 414)]
+    public long NextBiggerNumber_FindNextBiggerNumber_NextBiggerNumber(long n)
+    {
+        return Kata.NextBiggerNumber(n);
+    }
+
     [TestCase(new[] { 1, 2 }, "1,2")]
     [TestCase(new[] { -6, -3, -2, -1, 0, 1, 3, 4, 5, 7, 8, 9, 10, 11, 14, 15, 17, 18, 19, 20 }, "-6,-3-1,3-5,7-11,14,15,17-20")]
     [TestCase(new[] { -3, -2, -1, 2, 10, 15, 16, 18, 19, 20 }, "-3--1,2,10,15,16,18-20")]
