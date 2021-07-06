@@ -14,17 +14,40 @@
 
 // 1 kyi
 
+exports.iqTest = function (numbers) {
+
+    if (typeof numbers != "string")
+        return -1
+
+    var arr = numbers.split(' ');
+    var findEven = [arr[0], arr[1], arr[2]].filter(x => x % 2 == 0).length <= 1;
+
+    return arr.findIndex((element) => {
+        if (findEven && element % 2 == 0) {
+            return element;
+        } else if (!findEven && element % 2 != 0) {
+            return element;
+        }
+
+        return false;
+    }) + 1;
+}
+
 exports.filterList = function (l) {
     return l.filter(c => typeof c != "string");
 }
 
-exports.uniqueInOrder = function(iterable) {
+exports.uniqueInOrder = function (iterable) {
     var result = [];
-    for (var i = 0; i < iterable.length; i++){
-        if (i > 0 && iterable[i] == iterable[i-1])
+    for (var i = 0; i < iterable.length; i++) {
+        if (i > 0 && iterable[i] == iterable[i - 1])
             continue;
         result.push(iterable[i]);
     }
 
     return result;
+}
+
+exports.test = function (t) {
+    return t;
 }
