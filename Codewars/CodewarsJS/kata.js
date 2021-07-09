@@ -10,14 +10,120 @@
 // 5 kyi
 // phone https://www.codewars.com/kata/56baeae7022c16dd7400086e
 // score https://www.codewars.com/kata/5270d0d18625160ada0000e4
+// calculatingWithFunctions https://www.codewars.com/kata/525f3eda17c7cd9f9e000b39
 
 // 4 kyi
+// mix https://www.codewars.com/kata/5629db57620258aa9d000014
 
 // 3 kyi
 
 // 2 kyi
 
 // 1 kyi
+
+
+// calculatingWithFunctions start
+
+//nine(plus(one()))
+
+exports.zero = (arg) => processDigit(0, arg)
+exports.one = (arg) =>  processDigit(1, arg)
+exports.two = (arg) => processDigit(2, arg)
+exports.three = (arg) => processDigit(3, arg)
+exports.four = (arg) => processDigit(4, arg)
+exports.five = (arg) => processDigit(5, arg)
+exports.six = (arg) => processDigit(6, arg)
+exports.seven = (arg) => processDigit(7, arg)
+exports.eight = (arg) => processDigit(8, arg)
+exports.nine = (arg) => processDigit(9, arg)
+
+exports.plus = (arg) => '+' + arg;
+exports.minus = (arg) => '-' + arg;
+exports.times = (arg) => '*' + arg;
+exports.dividedBy = (arg) => '/' + arg;
+
+function processDigit(digit, arg){
+    if (!arg || arg.charAt(0).match(/\d/)){
+        return digit;
+    } else{
+        return calculate(digit, arg.charAt(0), parseInt(arg.charAt(1)));
+    } 
+}
+
+function calculate(firstDigit, operator, secondDigit){
+    switch (operator) {
+        case '+':
+          return firstDigit + secondDigit;
+        case '-':
+          return firstDigit - secondDigit;
+        case '*':
+          return firstDigit * secondDigit;
+        case '/':
+          return parseInt(firstDigit / secondDigit);
+      }
+}
+// calculatingWithFunctions end
+
+exports.mix = function (s1, s2) {
+
+    var alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+
+    var resultArr = [];
+    var result = '';
+
+    var groupedS1 = {};
+    var groupedS2 = {};
+
+    [...s1].forEach(c => {
+        if (c.match(/[^a-z]/)) return;
+
+        if (c in groupedS1) groupedS1[c] += c;
+
+        else groupedS1[c] = c; });
+
+    [...s2].forEach(c => {
+        if (c.match(/[^a-z]/)) return;
+
+        if (c in groupedS2) groupedS2[c] += c;
+
+        else groupedS2[c] = c; });
+
+
+    alphabet.forEach(a => {
+        if (groupedS1[a] && !groupedS2[a] && groupedS1[a].length > 1)
+            resultArr.push(`1:${groupedS1[a]}`);
+
+        if (!groupedS1[a] && groupedS2[a] && groupedS2[a].length > 1)
+            resultArr.push(`2:${groupedS2[a]}`);
+
+        if (groupedS1[a] && groupedS2[a] && (groupedS1[a].length > 1 || groupedS2[a].length > 1)) {
+            if (groupedS1[a].length > groupedS2[a].length)
+                resultArr.push(`1:${groupedS1[a]}`);
+            else if (groupedS1[a].length < groupedS2[a].length)
+                resultArr.push(`2:${groupedS2[a]}`);
+            else if (groupedS1[a].length == groupedS2[a].length)
+                resultArr.push(`=:${groupedS2[a]}`);
+        }
+    })
+
+    resultArr.sort((a,b) => {
+        if (b.length > a.length)
+            return 1;
+        else if (b.length < a.length) 
+            return -1;
+    
+        if (b > a)
+            return -1;
+        else
+            return 1
+    })
+
+    resultArr.forEach(a => {
+        result += a + '/';
+    })
+    
+    return result.slice(0, -1);
+}
 
 exports.score = function (diceRolls) {
     var result = 0;

@@ -1,5 +1,20 @@
 var kata = require('./kata.js');
 
+test('calculatingWithFunctions_aSequenceOfThreeFunctionCalls_resultOfArithmeticExpression', () => {
+    expect(kata.nine(kata.plus(kata.one()))).toBe(10);
+    expect(kata.nine(kata.dividedBy(kata.two()))).toBe(4);
+    expect(kata.three(kata.times(kata.two()))).toBe(6);
+});
+
+test('mix_twoStrings_diffOfTheStrings', () => {
+    expect(kata.mix("Are they here", "yes, they are here")).toEqual("2:eeeee/2:yy/=:hh/=:rr");
+    expect(kata.mix("looping is fun but dangerous", "less dangerous than coding")).toEqual("1:ooo/1:uuu/2:sss/=:nnn/1:ii/2:aa/2:dd/2:ee/=:gg");
+    expect(kata.mix(" In many languages", " there's a pair of functions")).toEqual("1:aaa/1:nnn/1:gg/2:ee/2:ff/2:ii/2:oo/2:rr/2:ss/2:tt");
+    expect(kata.mix("Lords of the Fallen", "gamekult")).toEqual("1:ee/1:ll/1:oo");
+    expect(kata.mix("codewars", "codewars")).toEqual("");
+    expect(kata.mix("A generation must confront the looming ", "codewarrs")).toEqual("1:nnnnn/1:ooooo/1:tttt/1:eee/1:gg/1:ii/1:mm/=:rr");
+});
+
 test('score_arrayOf5DiceRollResults_TotalScoreCalculatingByKataRules', () => {
     expect(kata.score([1, 1, 1, 1, 3])).toEqual(1100);
     expect(kata.score([2, 3, 4, 6, 2])).toEqual(0);
