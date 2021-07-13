@@ -11,6 +11,7 @@
 // phone https://www.codewars.com/kata/56baeae7022c16dd7400086e
 // score https://www.codewars.com/kata/5270d0d18625160ada0000e4
 // calculatingWithFunctions https://www.codewars.com/kata/525f3eda17c7cd9f9e000b39
+// add https://www.codewars.com/kata/539a0e4d85e3425cb0000a88
 
 // 4 kyi
 // mix https://www.codewars.com/kata/5629db57620258aa9d000014
@@ -21,11 +22,18 @@
 
 // 1 kyi
 
+// inspired of https://stackoverflow.com/questions/26656718/how-to-achieve-arbitrary-chain-on-function-call-in-javascript
+exports.add = function (n) {
+    var f = function(b){
+        return exports.add(n+b);
+    };
+    f.valueOf = function(){
+        return n;
+    };
+    return f;
+}
 
 // calculatingWithFunctions start
-
-//nine(plus(one()))
-
 exports.zero = (arg) => processDigit(0, arg)
 exports.one = (arg) =>  processDigit(1, arg)
 exports.two = (arg) => processDigit(2, arg)

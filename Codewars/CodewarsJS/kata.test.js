@@ -1,5 +1,9 @@
 var kata = require('./kata.js');
 
+test('add_chainAddingFunction_sumResult', () => {
+    expect(kata.add(5)(5)(5).valueOf()).toEqual(15);
+});
+
 test('calculatingWithFunctions_aSequenceOfThreeFunctionCalls_resultOfArithmeticExpression', () => {
     expect(kata.nine(kata.plus(kata.one()))).toBe(10);
     expect(kata.nine(kata.dividedBy(kata.two()))).toBe(4);
