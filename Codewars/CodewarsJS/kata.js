@@ -15,12 +15,25 @@
 
 // 4 kyi
 // mix https://www.codewars.com/kata/5629db57620258aa9d000014
+// sumIntervals https://www.codewars.com/kata/52b7ed099cdc285c300001cd
 
 // 3 kyi
 
 // 2 kyi
 
 // 1 kyi
+
+exports.sumIntervals = function (intervalsArr){
+    var intervalEnumerable = {};
+
+    for (let i = 0; i < intervalsArr.length; i++) {
+        for (let index = intervalsArr[i][0]; index < intervalsArr[i][1]; index++) {
+            if (!(index in intervalEnumerable)) intervalEnumerable[index] = 1;
+        }        
+    }
+
+    return Object.keys(intervalEnumerable).length;
+}
 
 // inspired of https://stackoverflow.com/questions/26656718/how-to-achieve-arbitrary-chain-on-function-call-in-javascript
 exports.add = function (n) {

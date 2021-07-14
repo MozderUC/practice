@@ -1,5 +1,13 @@
 var kata = require('./kata.js');
 
+test('sumIntervals_arrayOfIntervals_sumOfThem', () => {
+
+    expect(kata.sumIntervals([[1,5]])).toBe(4);
+    expect(kata.sumIntervals([[1,5],[6,10]])).toBe(8);
+    expect(kata.sumIntervals([[1,5]])).toBe(4);
+    expect(kata.sumIntervals([[1,4],[7, 10],[3, 5]])).toBe(7);
+});
+
 test('add_chainAddingFunction_sumResult', () => {
     expect(kata.add(5)(5)(5).valueOf()).toEqual(15);
 });
