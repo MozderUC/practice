@@ -1,5 +1,12 @@
 var kata = require('./kata.js');
 
+
+test('stripComments_stringWithCommentsMarkers_stringWithoutComments', () => {
+    expect(kata.stripComments("a #b\nc\nd $e f g", [ '#', '$' ])).toEqual("a\nc\n\d");
+    expect(kata.stripComments("apples, plums % and bananas\npears\noranges !applesauce", ["%", "!"])).toEqual("apples, plums\npears\noranges");
+    expect(kata.stripComments("Q @b\nu\ne -e f g", ["@", "-"])).toEqual("Q\nu\ne");
+});
+
 test('sumIntervals_arrayOfIntervals_sumOfThem', () => {
 
     expect(kata.sumIntervals([[1,5]])).toBe(4);

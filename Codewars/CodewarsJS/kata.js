@@ -16,12 +16,29 @@
 // 4 kyi
 // mix https://www.codewars.com/kata/5629db57620258aa9d000014
 // sumIntervals https://www.codewars.com/kata/52b7ed099cdc285c300001cd
+// stripComments https://www.codewars.com/kata/51c8e37cee245da6b40000bd
 
 // 3 kyi
 
 // 2 kyi
 
 // 1 kyi
+
+exports.stripComments = function (input, markers){
+    var arrInput = input.split('\n');
+    var result = '';
+
+    arrInput.forEach((x) => {
+        var index = [...x].findIndex(c => markers.includes(c));
+
+        if (index == -1)
+        result += x.trim() + '\n';
+        else
+        result += x.substring(0, index).trim() + '\n';
+    })
+
+    return result.substring(0, result.length - 1);
+}
 
 exports.sumIntervals = function (intervalsArr){
     var intervalEnumerable = {};
