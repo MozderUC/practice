@@ -25,21 +25,114 @@ public static class Kata
     // formatDuration https://www.codewars.com/kata/52742f58faf5485cae000b9a
     // DblLinear https://www.codewars.com/kata/5672682212c8ecf83e000050/train/csharp
     // ValidateSolution (Sudoku board validator) https://www.codewars.com/kata/529bf0e9bdf7657179000008
-    // PathFinder https://www.codewars.com/kata/5765870e190b1472ec0022a2
+    // PathFinderOne https://www.codewars.com/kata/5765870e190b1472ec0022a2
     // SinglePermutations (generate permutations) https://www.codewars.com/kata/5254ca2719453dcc0b00027d
     // productFib https://www.codewars.com/kata/5541f58a944b85ce6d00006a
     // Rot13 https://www.codewars.com/kata/530e15517bc88ac656000716
     // Extract https://www.codewars.com/kata/51ba717bb08c1cd60f00002f
     // NextBiggerNumber https://www.codewars.com/kata/55983863da40caa2c900004e
     // NextSmaller https://www.codewars.com/kata/5659c6d896bc135c4c00021e
+    // PyramidSlideDown https://www.codewars.com/kata/551f23362ff852e2ab000037
 
     // 3 kyi
     // ValidateBattlefield https://www.codewars.com/kata/52bb6539a4cf1b12d90005b7
+    // PathFinderThree https://www.codewars.com/kata/576986639772456f6f00030c
 
     // 2 kyi
 
     // 1 kyi
 
+
+    public static int LongestSlideDown(int[][] pyramid)
+    {
+
+
+        return 0;
+    }
+
+    public static int PathFinderThree(string maze)
+    {
+        if (maze.Length == 1) return 0;
+
+        var N = maze.IndexOf("\n");
+
+        var m = maze.Replace("\n", "");
+
+        // tuple is cost/vertex
+        var adjacencyList = new List<(int, int)>[N*N];
+
+        // fill adjacencyList
+        for (var i = 0; i < m.Length; i++)
+        {
+            adjacencyList[i] = new List<(int, int)>();
+            adjacencyList[i].AddRange(GetAdjacentVertexes(i, m, N));
+        }
+
+        // tuple is cost/vertex
+        var q = new SortedSet<(int,int)>();
+        var dst = Enumerable.Repeat(int.MaxValue,N*N).ToArray();
+
+        q.Add((0,0));
+        dst[0] = 0;
+
+        // Dijkstra algo
+        while (q.Any())
+        {
+            var c = q.Min;
+            q.Remove(c);
+
+            if(dst[c.Item2] == int.MaxValue)
+                continue;
+
+            foreach (var t in adjacencyList[c.Item2])
+            {
+                var d = c.Item1 + t.Item1;
+                if (d < dst[t.Item2])
+                {
+                    dst[t.Item2] = d;
+                    q.Add((d, t.Item2));
+                }
+            }
+        }
+
+        return dst[N * N - 1] == -1 ? -1 : dst[N * N - 1];
+    }
+
+    private static IEnumerable<(int,int)> GetAdjacentVertexes(int i, string maze, int N)
+    {
+        var result = new List<(int,int)>();
+        var g = i % N;
+
+        if (g == 0 || i == 0)
+        {
+            result.Add((Math.Abs(maze[i + 1] - maze[i]),i + 1));
+        }
+        else if (g == N - 1 || i == N - 1)
+        {
+            result.Add((Math.Abs(maze[i - 1] - maze[i]), i - 1));
+        }
+        else
+        {
+            result.Add((Math.Abs(maze[i + 1] - maze[i]),i + 1));
+            result.Add((Math.Abs(maze[i - 1] - maze[i]), i - 1));
+        }
+
+        if (i < N)
+        {
+            result.Add((Math.Abs(maze[i + N] - maze[i]),i + N));
+        }
+        else if (i > N * N - 1 - N)
+        {
+            result.Add((Math.Abs(maze[i - N] - maze[i]),i - N));
+        }
+        else
+        {
+            result.Add((Math.Abs(maze[i + N] - maze[i]),i + N));
+            result.Add((Math.Abs(maze[i - N] - maze[i]),i - N));
+        }
+
+        return result;
+    }
 
     public static long NextSmaller(long n)
     {
@@ -296,7 +389,7 @@ public static class Kata
         private static bool exitFound;
         private static int N;
 
-        public static bool PathFinder(string maze)
+        public static bool PathFinderOne(string maze)
         {
             if (maze.Length == 1) return true;
 

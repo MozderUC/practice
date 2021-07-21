@@ -17,12 +17,35 @@
 // mix https://www.codewars.com/kata/5629db57620258aa9d000014
 // sumIntervals https://www.codewars.com/kata/52b7ed099cdc285c300001cd
 // stripComments https://www.codewars.com/kata/51c8e37cee245da6b40000bd
+// topThreeWords https://www.codewars.com/kata/51e056fe544cf36c410000fb
 
 // 3 kyi
+// todo checkRange https://www.codewars.com/kata/591e833267cd75cb02000007
 
 // 2 kyi
 
 // 1 kyi
+
+exports.topThreeWords = function (text){
+    var group = {};
+    text.split(' ').forEach(w => {
+        var x = w.replace(/[^A-Za-z']|/g, '').toLowerCase().trim();
+        if (!x || x === "'") return;
+
+        if (x in group) group[x]++;
+        else group[x]=0;
+    })
+    
+    return Object.keys(group).sort(function(a,b){return group[b]-group[a]}).slice(0,3);
+}
+
+//exports.checkRange = (a,x,y)=>{var c = 0;a.forEach(i=>{if(i>=x&&i<=y)c++;});return c;}
+//exports.checkRange=(a,x,y)=>a.filter(k=>k>=x&&k<=y).length
+//exports.checkRange=(a,x,y)=>a.filter(k=>k>=x&k<=y).length
+
+exports.checkRange=(a,x,y)=>{
+
+}
 
 exports.stripComments = function (input, markers){
     var arrInput = input.split('\n');

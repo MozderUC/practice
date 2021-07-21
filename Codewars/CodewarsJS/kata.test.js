@@ -1,5 +1,29 @@
 var kata = require('./kata.js');
 
+test('topThreeWords_text_threeMostOccurringWordsInText', () => {
+    expect(kata.topThreeWords('a a a  b  c c  d d d d  e e e e e')).toEqual(['e','d','a']);
+    expect(kata.topThreeWords('a a c b b')).toEqual(['a','b','c']);
+    expect(kata.topThreeWords('e e e e DDD ddd DdD: ddd ddd aa aA Aa, bb cc cC e e e')).toEqual(['e','ddd','aa']);
+    expect(kata.topThreeWords("  //wont won't won't ")).toEqual(["won't", "wont"]);
+    expect(kata.topThreeWords('  , e   .. ')).toEqual(["e"]);
+    expect(kata.topThreeWords('  ...  ')).toEqual([]);
+    expect(kata.topThreeWords("  '  ")).toEqual([]);
+    expect(kata.topThreeWords(`In a village of La Mancha, the name of which I have no desire to call to
+    mind, there lived not long since one of those gentlemen that keep a lance
+    in the lance-rack, an old buckler, a lean hack, and a greyhound for
+    coursing. An olla of rather more beef than mutton, a salad on most
+    nights, scraps on Saturdays, lentils on Fridays, and a pigeon or so extra
+    on Sundays, made away with three-quarters of his income.`)).toEqual(['a','of','on']);
+});
+
+test('checkRange_arrayOfIntAndRangeFromXToY_countOfelementsInRange', () => {
+    expect(kata.checkRange([2, 5, 6, 7, 1, 3, 4, 11, 56, 49],1,7)).toBe(7);
+    expect(kata.checkRange([2, 5, 6, 7, 1, 3, 4, 11, 56, 49],3,5)).toBe(3);
+    expect(kata.checkRange([2, 5, 6, 7, 1, 3, 4, 11, 56, 49],7,10)).toBe(1);
+    expect(kata.checkRange([7, 5, 11, 8, 9, 1, 13, 12, 88],99,100)).toBe(0);
+    expect(kata.checkRange([12, 1, 45, 56, 98, 14, 23, 46],14,14)).toBe(1);
+    expect(kata.checkRange([1, 1, 1, 99, 99, 99],88,88)).toBe(0);
+});
 
 test('stripComments_stringWithCommentsMarkers_stringWithoutComments', () => {
     expect(kata.stripComments("a #b\nc\nd $e f g", [ '#', '$' ])).toEqual("a\nc\n\d");
