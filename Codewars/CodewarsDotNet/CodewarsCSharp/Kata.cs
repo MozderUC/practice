@@ -32,7 +32,7 @@ public static class Kata
     // Extract https://www.codewars.com/kata/51ba717bb08c1cd60f00002f
     // NextBiggerNumber https://www.codewars.com/kata/55983863da40caa2c900004e
     // NextSmaller https://www.codewars.com/kata/5659c6d896bc135c4c00021e
-    // PyramidSlideDown https://www.codewars.com/kata/551f23362ff852e2ab000037
+    // LongestSlideDown https://www.codewars.com/kata/551f23362ff852e2ab000037
 
     // 3 kyi
     // ValidateBattlefield https://www.codewars.com/kata/52bb6539a4cf1b12d90005b7
@@ -45,9 +45,61 @@ public static class Kata
 
     public static int LongestSlideDown(int[][] pyramid)
     {
+        // used formula: sum of arithmetic progression
+        var pyramidElementsCount = (int)(((decimal)pyramid.Length + 1) / 2 * pyramid.Length);
 
+        // tuple is cost/vertex
+        var adjacencyList = new List<(int, int)>[pyramidElementsCount];
 
-        return 0;
+        // fill adjacencyList
+        var vCount = 0;
+        var lastLineOfPyramid = new List<int>();
+        for (var i = 0; i < pyramid.Length; i++)
+        {
+            for (var j = 0; j < pyramid[i].Length; j++)
+            {
+                adjacencyList[vCount] ??= new List<(int, int)>();
+                if (i == pyramid.Length - 1)
+                {
+                    lastLineOfPyramid.Add(vCount);
+                    vCount++;
+                    continue;
+                }
+                adjacencyList[vCount].Add((pyramid[i+1][j], vCount+pyramid[i].Length));
+                adjacencyList[vCount].Add((pyramid[i+1][j+1], vCount+pyramid[i].Length+1));
+
+                vCount++;
+            }
+        }
+
+        // tuple is cost/vertex
+        var q = new SortedSet<(int,int)>();
+        var dst = Enumerable.Repeat(int.MinValue,pyramidElementsCount).ToArray();
+
+        q.Add((pyramid[0][0],0));
+        dst[0] = pyramid[0][0];
+
+        // Dijkstra algo
+        while (q.Any())
+        {
+            var c = q.Max;
+            q.Remove(c);
+
+            if(dst[c.Item2] == int.MinValue)
+                continue;
+
+            foreach (var t in adjacencyList[c.Item2])
+            {
+                var d = c.Item1 + t.Item1;
+                if (d > dst[t.Item2])
+                {
+                    dst[t.Item2] = d;
+                    q.Add((d, t.Item2));
+                }
+            }
+        }
+
+        return lastLineOfPyramid.Select(x => dst[x]).Max();
     }
 
     public static int PathFinderThree(string maze)

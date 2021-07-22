@@ -12,6 +12,7 @@
 // score https://www.codewars.com/kata/5270d0d18625160ada0000e4
 // calculatingWithFunctions https://www.codewars.com/kata/525f3eda17c7cd9f9e000b39
 // add https://www.codewars.com/kata/539a0e4d85e3425cb0000a88
+// toRange; toArray https://www.codewars.com/kata/58ab002d68ee07c57b000118
 
 // 4 kyi
 // mix https://www.codewars.com/kata/5629db57620258aa9d000014
@@ -25,6 +26,54 @@
 // 2 kyi
 
 // 1 kyi
+
+exports.toRange = function (arr) {
+    var result = '';
+    var increasingSequence = [];
+
+    arr = [...new Set(arr)];
+    arr.sort((a, b) => a - b);
+
+    for (let i = 0; i < arr.length; i++) {
+        if (i + 1 < arr.length && arr[i + 1] - arr[i] == 1){
+            increasingSequence.push(arr[i]);
+            continue;
+        }
+        
+        if (increasingSequence.length > 0){
+            result+=`${increasingSequence[0]}_${arr[i]},`;
+            increasingSequence = [];
+            continue;
+        }
+
+        result+= `${arr[i]},`;
+    }
+
+    return result.substr(0,result.length - 1);
+}
+
+exports.toArray = function (str) {
+    if (!str.trim()){
+        return [];
+    }
+
+    var result = [];
+    var tokens = str.split(',');
+
+    for (let i = 0; i < tokens.length; i++) {
+        var digits = tokens[i].split('_');
+        
+        if (digits.length == 1)
+            result.push(parseInt(digits[0]));
+        else   
+            result = result.concat(Array.from(new Array(digits[1] - digits[0] + 1), (x, i) => parseInt(i, 10) + parseInt(digits[0], 10)));
+    }
+
+    result = [...new Set(result)];
+    result.sort((a, b) => a - b);
+
+    return result;
+}
 
 exports.topThreeWords = function (text){
     var group = {};
@@ -42,7 +91,6 @@ exports.topThreeWords = function (text){
 //exports.checkRange = (a,x,y)=>{var c = 0;a.forEach(i=>{if(i>=x&&i<=y)c++;});return c;}
 //exports.checkRange=(a,x,y)=>a.filter(k=>k>=x&&k<=y).length
 //exports.checkRange=(a,x,y)=>a.filter(k=>k>=x&k<=y).length
-
 exports.checkRange=(a,x,y)=>{
 
 }

@@ -15,7 +15,7 @@ public class KataTest
                 new[] {2, 4, 6},
                 new[] {8, 5, 9, 3}
             },
-            27
+            23
         },
         new object[]
         {
